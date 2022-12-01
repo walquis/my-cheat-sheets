@@ -9,10 +9,24 @@ $ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the
 $ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
 ```
 
+## Kubernetes
+```
+# SSH to a running pod in a k8s cluster...
+
+$ k get pods
+
+NAME                           READY   STATUS    RESTARTS   AGE
+codelabs-wl-77f89d845f-vr649   1/1     Running   0          24h
+
+$ k get pod codelabs-wl-77f89d845f-vr649
+
+$ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
+```
+
 ## Find a process listening on a port
 Usually to kill it...on a Mac...from https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/
 ```
-$ lsof -nP -iTCP -sTCP:LISTEN | grep $1
+$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080
 ```
 
 ## Unix date commands
