@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Page not found - Cheat Sheets</title>
-        <base href="/">
+        <title>docker CLI - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -84,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html" class="active"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,14 +166,24 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
+<pre><code>$ docker build --progress=plain -t tt .
+$ docker run -p 3000:3000 -it tt  # run the container
+$ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
+$ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="gcloud-cheat-sheet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
+                            <a rel="next" href="k8s-cheat-sheet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -182,7 +191,13 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="gcloud-cheat-sheet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
+                    <a rel="next" href="k8s-cheat-sheet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

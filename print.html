@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -169,24 +169,6 @@
                     <main>
                         <p><a href="https://walquis.github.io/git-basics-team-project/cheat-sheet.html">Git Cheat Sheet from git basics class</a></p>
 <div style="break-before: page; page-break-before: always;"></div><p>One-liners (or few-liners) I use, but not enough to remember. </p>
-<h2 id="docker-commands"><a class="header" href="#docker-commands">Docker commands</a></h2>
-<pre><code>$ docker build --progress=plain -t tt .
-$ docker run -p 3000:3000 -it tt  # run the container
-$ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
-$ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
-</code></pre>
-<h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
-<pre><code># SSH to a running pod in a k8s cluster...
-
-$ k get pods
-
-NAME                           READY   STATUS    RESTARTS   AGE
-codelabs-wl-77f89d845f-vr649   1/1     Running   0          24h
-
-$ k get pod codelabs-wl-77f89d845f-vr649
-
-$ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
-</code></pre>
 <h2 id="find-a-process-listening-on-a-port"><a class="header" href="#find-a-process-listening-on-a-port">Find a process listening on a port</a></h2>
 <p>On a Mac, usually because I want to kill it. From <a href="https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/">find-the-process-listening-to-port-on-mac-os-x/</a>.</p>
 <pre><code>$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080
@@ -208,25 +190,28 @@ $ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s
 
 # Or use https://www.epochconverter.com/
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><p>gcloud cheat sheet</p>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
+<h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
 <pre><code>$ brew install --cask google-cloud-sdk            
 $ gcloud components install gke-gcloud-auth-plugin
 $ gcloud init
-$ gcloud container clusters create my-cluster
 </code></pre>
-<p>Updates ~/.kube/config, to point kubectl at a specific cluster in GKE.</p>
+<h3 id="create-a-cluster"><a class="header" href="#create-a-cluster">Create a cluster</a></h3>
+<pre><code>$ gcloud container clusters create my-cluster
+</code></pre>
+<p>Update ~/.kube/config to point kubectl at a specific cluster in GKE.</p>
 <pre><code>$ gcloud container clusters get-credentials my-cluster
 </code></pre>
-<p>Build an image tagged for pushing to the Google container registry repo</p>
+<p>Example of building an image tagged for pushing to my Google container registry repo</p>
 <pre><code>$ docker build -t us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image:1.2.10 .
 </code></pre>
-<p>Set up Google container registry repo</p>
+<h3 id="use-gcloud-to-set-up-google-container-registry-repo-for-docker-images"><a class="header" href="#use-gcloud-to-set-up-google-container-registry-repo-for-docker-images">Use gcloud to set up Google container registry repo for Docker images</a></h3>
 <pre><code>$ gcloud services enable artifactregistry.googleapis.com
+
+# Create the repo...
 $ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description=&quot;blue/green helloworld app&quot; --location=us-east1
 
-
-# gcloud helps add a credential helper to your ~/.docker/config.json...
-
+# Use gcloud to add a credential helper to your ~/.docker/config.json...
 $ gcloud auth configure-docker us-east1-docker.pkg.dev
 
 # Now you can 'docker push' the tagged image...
@@ -249,6 +234,38 @@ us-east1-b
 </code></pre>
 <p>kubectl looking-around commands...</p>
 <pre><code>$ kubectl get pods
+$ kubectl get namespaces
+$ kubectl config current-context
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
+<pre><code>$ docker build --progress=plain -t tt .
+$ docker run -p 3000:3000 -it tt  # run the container
+$ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
+$ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
+<pre><code># SSH to a running pod in a k8s cluster...
+
+$ k get pods
+
+NAME                           READY   STATUS    RESTARTS   AGE
+codelabs-wl-77f89d845f-vr649   1/1     Running   0          24h
+
+$ k get pod codelabs-wl-77f89d845f-vr649
+
+$ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
+</code></pre>
+<p>kubectl keeps its config in ~/.kube/config.  Some top-level config objects:</p>
+<ul>
+<li>A list of clusters</li>
+<li>A list of users</li>
+<li>A list of contexts</li>
+<li>The current context</li>
+<li>Preferences</li>
+</ul>
+<p>kubectl looking-around commands</p>
+<pre><code>$ kubectl get pods
+$ kubectl describe pod &lt;pod-id&gt;
 $ kubectl get namespaces
 $ kubectl config current-context
 </code></pre>

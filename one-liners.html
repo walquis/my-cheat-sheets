@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html" class="active"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html" class="active"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,24 +167,6 @@
                 <div id="content" class="content">
                     <main>
                         <p>One-liners (or few-liners) I use, but not enough to remember. </p>
-<h2 id="docker-commands"><a class="header" href="#docker-commands">Docker commands</a></h2>
-<pre><code>$ docker build --progress=plain -t tt .
-$ docker run -p 3000:3000 -it tt  # run the container
-$ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
-$ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
-</code></pre>
-<h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
-<pre><code># SSH to a running pod in a k8s cluster...
-
-$ k get pods
-
-NAME                           READY   STATUS    RESTARTS   AGE
-codelabs-wl-77f89d845f-vr649   1/1     Running   0          24h
-
-$ k get pod codelabs-wl-77f89d845f-vr649
-
-$ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
-</code></pre>
 <h2 id="find-a-process-listening-on-a-port"><a class="header" href="#find-a-process-listening-on-a-port">Find a process listening on a port</a></h2>
 <p>On a Mac, usually because I want to kill it. From <a href="https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/">find-the-process-listening-to-port-on-mac-os-x/</a>.</p>
 <pre><code>$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080

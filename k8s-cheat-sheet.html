@@ -3,8 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Page not found - Cheat Sheets</title>
-        <base href="/">
+        <title>Kubernetes - kubectl CLI - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -84,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html" class="active"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,13 +166,40 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="document-not-found-404"><a class="header" href="#document-not-found-404">Document not found (404)</a></h1>
-<p>This URL is invalid, sorry. Please use the navigation bar or search to continue.</p>
+                        <h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
+<pre><code># SSH to a running pod in a k8s cluster...
+
+$ k get pods
+
+NAME                           READY   STATUS    RESTARTS   AGE
+codelabs-wl-77f89d845f-vr649   1/1     Running   0          24h
+
+$ k get pod codelabs-wl-77f89d845f-vr649
+
+$ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
+</code></pre>
+<p>kubectl keeps its config in ~/.kube/config.  Some top-level config objects:</p>
+<ul>
+<li>A list of clusters</li>
+<li>A list of users</li>
+<li>A list of contexts</li>
+<li>The current context</li>
+<li>Preferences</li>
+</ul>
+<p>kubectl looking-around commands</p>
+<pre><code>$ kubectl get pods
+$ kubectl describe pod &lt;pod-id&gt;
+$ kubectl get namespaces
+$ kubectl config current-context
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="docker-cheat-sheet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
 
                         <div style="clear: both"></div>
@@ -182,6 +208,9 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="docker-cheat-sheet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
             </nav>
 
