@@ -1,0 +1,12 @@
+[book]
+authors = ["Chris Walquist"]
+language = "en"
+multilingual = false
+src = "src"
+title = "Cheat Sheets"
+
+[output.html]
+default-theme = "rust"
+
+[build]
+build-dir = "../docs"
