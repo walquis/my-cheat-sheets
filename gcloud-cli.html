@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Kubernetes - kubectl CLI - Cheat Sheets</title>
+        <title>gcloud - Google Cloud CLI - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html" class="active"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html" class="active"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">7.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -166,29 +166,56 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
-<pre><code># SSH to a running pod in a k8s cluster...
-
-$ k get pods
-
-NAME                           READY   STATUS    RESTARTS   AGE
-codelabs-wl-77f89d845f-vr649   1/1     Running   0          24h
-
-$ k get pod codelabs-wl-77f89d845f-vr649
-
-$ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
+                        <h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
+<h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
+<pre><code>$ brew install --cask google-cloud-sdk            
+$ gcloud components install gke-gcloud-auth-plugin
+$ gcloud init
 </code></pre>
-<p>kubectl keeps its config in ~/.kube/config.  Some top-level config objects:</p>
-<ul>
-<li>A list of clusters</li>
-<li>A list of users</li>
-<li>A list of contexts</li>
-<li>The current context</li>
-<li>Preferences</li>
-</ul>
-<p>kubectl looking-around commands</p>
+<h3 id="create-a-cluster"><a class="header" href="#create-a-cluster">Create a cluster</a></h3>
+<pre><code>$ gcloud container clusters create my-cluster
+</code></pre>
+<p>Update ~/.kube/config to point kubectl at a specific cluster in GKE.</p>
+<pre><code>$ gcloud container clusters get-credentials my-cluster
+</code></pre>
+<p>Example of building an image tagged for pushing to my Google container registry repo</p>
+<pre><code>$ docker build -t us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image:1.2.10 .
+</code></pre>
+<h3 id="use-gcloud-to-set-up-google-container-registry-repo-for-docker-images"><a class="header" href="#use-gcloud-to-set-up-google-container-registry-repo-for-docker-images">Use gcloud to set up Google container registry repo for Docker images</a></h3>
+<pre><code>$ gcloud services enable artifactregistry.googleapis.com
+
+# Create the repo...
+$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description=&quot;blue/green helloworld app&quot; --location=us-east1
+
+# Use gcloud to add a credential helper to your ~/.docker/config.json...
+$ gcloud auth configure-docker us-east1-docker.pkg.dev
+
+# Now you can 'docker push' the tagged image...
+$ docker push us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image
+
+</code></pre>
+<p>Set up some gcloud defaults to make subsequent commands easier...</p>
+<pre><code>$ gcloud config set artifacts/location us-east1 
+$ gcloud config set artifacts/repository bg-hw-deploy-refimpl
+
+# These were already set during 'gcloud init' ...
+$ gcloud config get compute/region
+us-east1
+$ gcloud config get compute/zone  
+us-east1-b
+</code></pre>
+<p>Stop the cluster nodes (e.g., to minimize ongoing charges)</p>
+<pre><code>gcloud container clusters resize my-cluster --num-nodes=0
+</code></pre>
+<p>Delete the cluster</p>
+<pre><code>gcloud container clusters delete my-cluster
+</code></pre>
+<p>Look at the pushed image...</p>
+<pre><code>$ gcloud artifacts docker images list
+
+</code></pre>
+<p>kubectl looking-around commands...</p>
 <pre><code>$ kubectl get pods
-$ kubectl describe pod &lt;pod-id&gt;
 $ kubectl get namespaces
 $ kubectl config current-context
 </code></pre>
@@ -197,10 +224,13 @@ $ kubectl config current-context
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="docker-cheat-sheet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="one-liners.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
+                            <a rel="next" href="docker-cli.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -208,10 +238,13 @@ $ kubectl config current-context
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="docker-cheat-sheet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="one-liners.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
+                    <a rel="next" href="docker-cli.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
             </nav>
 
         </div>

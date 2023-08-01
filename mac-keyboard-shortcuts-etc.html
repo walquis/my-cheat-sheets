@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>docker CLI - Cheat Sheets</title>
+        <title>Mac keyboard shortcuts - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html" class="active"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html" class="active"><strong aria-hidden="true">7.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -166,24 +166,133 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
-<pre><code>$ docker build --progress=plain -t tt .
-$ docker run -p 3000:3000 -it tt  # run the container
-$ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
-$ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
-</code></pre>
+                        <h1 id="mac-os-x-keyboard-shortcuts-and-other-tipstricks"><a class="header" href="#mac-os-x-keyboard-shortcuts-and-other-tipstricks">Mac OS X keyboard shortcuts, and other tips/tricks</a></h1>
+<p>(Install and start <a href="https://github.com/keycastr/keycastr">KeyCastr</a> if demo'ing keyboard shortcuts; shows keystrokes onscreen.)</p>
+<h2 id="first-things"><a class="header" href="#first-things">First things...</a></h2>
+<ul>
+<li>⌘-SPC (spacebar), &quot;sys&quot;, RETURN, and then search in System Settings for &quot;customize modifier&quot;</li>
+<li>Map Caps Lock to ESC.  This will come in handy when you learn vim (you're going to learn Vim, of course ... ? 😃) Also, ESC cancels modal dialogs of various kinds, such as ⌘-SPC (Spotlight search).</li>
+</ul>
+<h3 id="in-system-settings-search-mission-choose-hot-corner-shortcuts"><a class="header" href="#in-system-settings-search-mission-choose-hot-corner-shortcuts">In System Settings, search &quot;mission&quot;, choose &quot;Hot Corner Shortcuts&quot;</a></h3>
+<p><a href="https://support.apple.com/en-us/HT204100">Mission Control</a> - bird's-eye view of windows, spaces, and apps
+I set my hot corners to something like this...
+<img src="./img/hot-corners.png" alt="|200" /></p>
+<p>When you touch that screen corner with your mouse, the selected action happens.</p>
+<p>Other &quot;Mission Control&quot; settings:</p>
+<ul>
+<li>OFF - &quot;When switching to an app, switch to a space w/open windows&quot;</li>
+<li>OFF - &quot;Displays have separate Spaces&quot;</li>
+</ul>
+<h2 id="general-keyboard-shortcuts"><a class="header" href="#general-keyboard-shortcuts">General Keyboard Shortcuts</a></h2>
+<ul>
+<li>
+<p>⌘-SPC - Spotlight. Search for anything on your Mac: apps, text, filenames, etc.</p>
+<ul>
+<li>What to search for?
+<ul>
+<li>&quot;ter&quot; - Terminal.app - Sometimes just &quot;t&quot; is enough; Spotlight remembers frequency.</li>
+<li>&quot;sys&quot; - System Settings.app</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>⌘-TAB - Cycle between open apps. (⌘-SHFT-TAB goes the other way).</p>
+</li>
+<li>
+<p>⌘-n - New window in an app (e.g., new bash window in Terminal, new browser window in Chrome, new Finder window in Finder).</p>
+</li>
+<li>
+<p>⌘-w - Close active window in an app (e.g. a tab in your browser).</p>
+</li>
+<li>
+<p>⌘-` - Cycle between windows in an app.</p>
+</li>
+<li>
+<p>⌘-, - Open an app's settings (aka preferences).</p>
+</li>
+<li>
+<p>⌘-CTRL-SPC - Open the characters menu (emojis, symbols, etc.)</p>
+</li>
+</ul>
+<h3 id="capturing-screenshots"><a class="header" href="#capturing-screenshots">Capturing Screenshots</a></h3>
+<p><strong>Selecting and capturing a portion of the screen</strong></p>
+<ul>
+<li>⌘-SHFT-4 - Drag the crosshair to select.  Selected area is saved in a file on your Desktop.</li>
+<li>⌘-SHFT-Ctrl-4 - Drag the crosshair to select.  Selected area is saved to your copy buffer (paste with ⌘-v).</li>
+</ul>
+<p><strong>Selecting and capturing a window</strong></p>
+<ul>
+<li>⌘-SHFT-4, then SPC - When you tap SPC, the crosshair changes to a camera.  The active window is saved in a file on your Desktop.</li>
+<li>⌘-SHFT-Ctrl-4, then SPC - When you tap SPC, the crosshair changes to a camera.  The active window is saved to your copy buffer.</li>
+</ul>
+<h3 id="editing"><a class="header" href="#editing">Editing</a></h3>
+<ul>
+<li>⌘-c - Copy selected</li>
+<li>⌘-v - Paste selected</li>
+<li>⌘-x - Delete selected</li>
+<li>⌘-z - Undo</li>
+</ul>
+<h2 id="app-specific-shortcuts"><a class="header" href="#app-specific-shortcuts">App-specific shortcuts</a></h2>
+<h3 id="finder-shortcuts"><a class="header" href="#finder-shortcuts">Finder shortcuts</a></h3>
+<ul>
+<li>⌘-SHFT-n - New folder at top of hierarchy in current Finder view.</li>
+<li>⌘-BKSPC - Delete highlighted item (e.g. a file).  BE CAREFUL!</li>
+<li>&lt;right-arrow&gt; - Expand directory view.</li>
+<li>⌘-&lt;down-arrow&gt; - Zoom Finder view to highlighted sub-directory.</li>
+<li>⌘-&lt;up-arrow&gt; - Unzoom Finder view up on directory level.</li>
+</ul>
+<h3 id="browser-shortcuts"><a class="header" href="#browser-shortcuts">Browser shortcuts</a></h3>
+<ul>
+<li>⌘-+ - Increase font size.</li>
+<li>⌘-MINUS - Decrease font size.</li>
+<li>⌘-0 - Restore default font size.</li>
+<li>Ctrl-TAB - Cycle between tabs in active window.</li>
+<li>You can drag a tab out into its own window (and drag it back in too).</li>
+</ul>
+<h3 id="mission-control---birds-eye-view-of-windows-spaces-and-apps"><a class="header" href="#mission-control---birds-eye-view-of-windows-spaces-and-apps"><a href="https://support.apple.com/en-us/HT204100">Mission Control</a> - bird's-eye view of windows, spaces, and apps</a></h3>
+<ul>
+<li>When in Mission Control, add a workspace with &quot;+&quot; (top right corner)</li>
+<li>Ctrl-&lt;up-arrow&gt;</li>
+<li>Ctrl-&lt;right-arrow&gt;, Ctrl-&lt;left-arrow&gt; - switch workspaces</li>
+<li>Ctrl-&lt;down-arrow&gt; - app focus</li>
+</ul>
+<p>While in Mission Control, you can drag windows around to various desktops.</p>
+<p>To delete a desktop, hover over its thumbnail until a white &quot;X&quot; appears, and click the &quot;X&quot;.  (No windows in that desktop will be deleted; they will simply move to the previous desktop).</p>
+<p>Hit ESC to exit Mission Control.</p>
+<h2 id="gestures"><a class="header" href="#gestures">Gestures</a></h2>
+<p>In System Settings, search &quot;gestures&quot;, choose Trackpad gestures.</p>
+<p>Trackpad with drag lock:</p>
+<ul>
+<li>&quot;use trackpad for dragging&quot;</li>
+<li>&quot;with Drag Lock&quot;</li>
+</ul>
+<h3 id="terminalapp-zsh"><a class="header" href="#terminalapp-zsh">Terminal.app (zsh)</a></h3>
+<ul>
+<li>Tab to autocomplete file or directory names.</li>
+<li>⌘-k - Clear screen, including scrollback history.</li>
+<li>⌘-&lt;double-tap&gt; on a URL in the terminal window - Opens that URl in default browser.</li>
+<li>⌘-TAB - Open a new shell in the same window.
+<ul>
+<li>Ctrl-TAB - Cycle between tabs (similar to behavior with browser tabs).</li>
+<li>You can drag a tab out into its own window (also like browser tab, except that you can't drag it back in).</li>
+</ul>
+</li>
+</ul>
+<h3 id="explore"><a class="header" href="#explore">Explore</a></h3>
+<ul>
+<li>Trackpad has &quot;light&quot; click and &quot;firm&quot; click (aka &quot;force click&quot;).</li>
+<li>Function keys can be set to default to F1-12, or to the &quot;other&quot; mode (FN-&lt;fn-key&gt; accesses whatever the &quot;other&quot; mode is.  ⌘-SPC, &quot;function keys&quot;.</li>
+</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="gcloud-cheat-sheet.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="concourse-ci.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="k8s-cheat-sheet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -191,13 +300,10 @@ $ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="gcloud-cheat-sheet.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="concourse-ci.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="k8s-cheat-sheet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>

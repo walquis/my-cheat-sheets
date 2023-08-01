@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gcloud - Google Cloud CLI - Cheat Sheets</title>
+        <title>Concourse-CI - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html" class="active"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li class="chapter-item expanded "><a href="concourse-ci.html" class="active"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">7.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -166,63 +166,43 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
-<h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
-<pre><code>$ brew install --cask google-cloud-sdk            
-$ gcloud components install gke-gcloud-auth-plugin
-$ gcloud init
+                        <h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
+<pre><code>brew install fly
 </code></pre>
-<h3 id="create-a-cluster"><a class="header" href="#create-a-cluster">Create a cluster</a></h3>
-<pre><code>$ gcloud container clusters create my-cluster
+<h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
+<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or &quot;target&quot;).  <code>~/.flyrc</code> can store multiple sets of creds.</p>
+<p>Since you have to specify target with every fly command, set up an alias...</p>
+<pre><code>alias f=&quot;fly -t bg-hw-deploy-refimpl&quot;
 </code></pre>
-<p>Update ~/.kube/config to point kubectl at a specific cluster in GKE.</p>
-<pre><code>$ gcloud container clusters get-credentials my-cluster
+<p>Authentication is stored in <code>~/.flyrc</code>.</p>
+<pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw
+f sync   # Update fly CLI version to match Concourse server.
 </code></pre>
-<p>Example of building an image tagged for pushing to my Google container registry repo</p>
-<pre><code>$ docker build -t us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image:1.2.10 .
+<h2 id="creating-and-activating-a-pipeline-in-concourse"><a class="header" href="#creating-and-activating-a-pipeline-in-concourse">Creating and activating a pipeline in Concourse</a></h2>
+<pre><code>cd concourse
+f set-pipeline -c pipeline.yml -p bg-hw-deploy-refimpl
+f unpause-pipeline -p bg-hw-deploy-refimpl
 </code></pre>
-<h3 id="use-gcloud-to-set-up-google-container-registry-repo-for-docker-images"><a class="header" href="#use-gcloud-to-set-up-google-container-registry-repo-for-docker-images">Use gcloud to set up Google container registry repo for Docker images</a></h3>
-<pre><code>$ gcloud services enable artifactregistry.googleapis.com
-
-# Create the repo...
-$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description=&quot;blue/green helloworld app&quot; --location=us-east1
-
-# Use gcloud to add a credential helper to your ~/.docker/config.json...
-$ gcloud auth configure-docker us-east1-docker.pkg.dev
-
-# Now you can 'docker push' the tagged image...
-$ docker push us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image
-
-</code></pre>
-<p>Set up some gcloud defaults to make subsequent commands easier...</p>
-<pre><code>$ gcloud config set artifacts/location us-east1 
-$ gcloud config set artifacts/repository bg-hw-deploy-refimpl
-
-# These were already set during 'gcloud init' ...
-$ gcloud config get compute/region
-us-east1
-$ gcloud config get compute/zone  
-us-east1-b
-</code></pre>
-<p>Look at the pushed image...</p>
-<pre><code>$ gcloud artifacts docker images list
-
-</code></pre>
-<p>kubectl looking-around commands...</p>
-<pre><code>$ kubectl get pods
-$ kubectl get namespaces
-$ kubectl config current-context
+<h2 id="some-other-things-you-can-do-with-fly"><a class="header" href="#some-other-things-you-can-do-with-fly">Some other things you can do with fly</a></h2>
+<pre><code>f targets
+f status
+f userinfo
+f teams
+f logout
+f sync
+f workers
+f containers
 </code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="one-liners.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="k8s-kubectl.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="docker-cheat-sheet.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="mac-keyboard-shortcuts-etc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -232,11 +212,11 @@ $ kubectl config current-context
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="one-liners.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="k8s-kubectl.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="docker-cheat-sheet.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="mac-keyboard-shortcuts-etc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

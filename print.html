@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cheat-sheet.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cheat-sheet.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-cheat-sheet.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">7.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -228,6 +228,12 @@ us-east1
 $ gcloud config get compute/zone  
 us-east1-b
 </code></pre>
+<p>Stop the cluster nodes (e.g., to minimize ongoing charges)</p>
+<pre><code>gcloud container clusters resize my-cluster --num-nodes=0
+</code></pre>
+<p>Delete the cluster</p>
+<pre><code>gcloud container clusters delete my-cluster
+</code></pre>
 <p>Look at the pushed image...</p>
 <pre><code>$ gcloud artifacts docker images list
 
@@ -243,7 +249,23 @@ $ docker run -p 3000:3000 -it tt  # run the container
 $ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
 $ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
 </code></pre>
+<p>Build and tag an image at the same time, and publish to Artifactory, with a git sha as an image tag...</p>
+<pre><code>image_tag=`git rev-parse --short HEAD`
+docker_tag=artifacts.drwholdings.com/apprenticeship-docker-local-default/bg-hw-deploy-refimpl:$image_tag
+docker build -t $docker_tag .
+docker push $docker_tag
+</code></pre>
+<p>The following command helped me debug an <code>exec format error</code> issue for a pod trying to start a container from my image; it showed that my <code>helloworld</code> image was an <code>arm64</code> image.</p>
+<pre><code>docker inspect helloworld | grep -i arch
+</code></pre>
+<p>I needed to tell Docker on my M2 mac to build for the linudx/amd64 platform, which I did using the <code>--platform=linux/amd64</code> option to the FROM directive in my Dockerfile.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
+<p>Handy alias: <code>k</code></p>
+<pre><code>$ alias k='kubectl --kubeconfig ~/.kube/apprenticeship.tr-lab-chhq-1.yaml'
+
+$ k config set-context --current --namespace=bg-helloworld-reference-impl-ns
+</code></pre>
+<p>Now I don't have to say &quot;-n bg-helloworld-reference-impl-ns&quot; after every command</p>
 <pre><code># SSH to a running pod in a k8s cluster...
 
 $ k get pods
@@ -255,7 +277,10 @@ $ k get pod codelabs-wl-77f89d845f-vr649
 
 $ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
 </code></pre>
-<p>kubectl keeps its config in ~/.kube/config.  Some top-level config objects:</p>
+<p>See pod logs:</p>
+<pre><code>$ k logs reference-helloworld-wl-597c5744b4-wbwsc --all-containers
+</code></pre>
+<p>kubectl keeps its config in <code>~/.kube/config</code>.  Some top-level config objects:</p>
 <ul>
 <li>A list of clusters</li>
 <li>A list of users</li>
@@ -269,6 +294,151 @@ $ kubectl describe pod &lt;pod-id&gt;
 $ kubectl get namespaces
 $ kubectl config current-context
 </code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
+<pre><code>brew install fly
+</code></pre>
+<h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
+<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or &quot;target&quot;).  <code>~/.flyrc</code> can store multiple sets of creds.</p>
+<p>Since you have to specify target with every fly command, set up an alias...</p>
+<pre><code>alias f=&quot;fly -t bg-hw-deploy-refimpl&quot;
+</code></pre>
+<p>Authentication is stored in <code>~/.flyrc</code>.</p>
+<pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw
+f sync   # Update fly CLI version to match Concourse server.
+</code></pre>
+<h2 id="creating-and-activating-a-pipeline-in-concourse"><a class="header" href="#creating-and-activating-a-pipeline-in-concourse">Creating and activating a pipeline in Concourse</a></h2>
+<pre><code>cd concourse
+f set-pipeline -c pipeline.yml -p bg-hw-deploy-refimpl
+f unpause-pipeline -p bg-hw-deploy-refimpl
+</code></pre>
+<h2 id="some-other-things-you-can-do-with-fly"><a class="header" href="#some-other-things-you-can-do-with-fly">Some other things you can do with fly</a></h2>
+<pre><code>f targets
+f status
+f userinfo
+f teams
+f logout
+f sync
+f workers
+f containers
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="mac-os-x-keyboard-shortcuts-and-other-tipstricks"><a class="header" href="#mac-os-x-keyboard-shortcuts-and-other-tipstricks">Mac OS X keyboard shortcuts, and other tips/tricks</a></h1>
+<p>(Install and start <a href="https://github.com/keycastr/keycastr">KeyCastr</a> if demo'ing keyboard shortcuts; shows keystrokes onscreen.)</p>
+<h2 id="first-things"><a class="header" href="#first-things">First things...</a></h2>
+<ul>
+<li>⌘-SPC (spacebar), &quot;sys&quot;, RETURN, and then search in System Settings for &quot;customize modifier&quot;</li>
+<li>Map Caps Lock to ESC.  This will come in handy when you learn vim (you're going to learn Vim, of course ... ? 😃) Also, ESC cancels modal dialogs of various kinds, such as ⌘-SPC (Spotlight search).</li>
+</ul>
+<h3 id="in-system-settings-search-mission-choose-hot-corner-shortcuts"><a class="header" href="#in-system-settings-search-mission-choose-hot-corner-shortcuts">In System Settings, search &quot;mission&quot;, choose &quot;Hot Corner Shortcuts&quot;</a></h3>
+<p><a href="https://support.apple.com/en-us/HT204100">Mission Control</a> - bird's-eye view of windows, spaces, and apps
+I set my hot corners to something like this...
+<img src="./img/hot-corners.png" alt="|200" /></p>
+<p>When you touch that screen corner with your mouse, the selected action happens.</p>
+<p>Other &quot;Mission Control&quot; settings:</p>
+<ul>
+<li>OFF - &quot;When switching to an app, switch to a space w/open windows&quot;</li>
+<li>OFF - &quot;Displays have separate Spaces&quot;</li>
+</ul>
+<h2 id="general-keyboard-shortcuts"><a class="header" href="#general-keyboard-shortcuts">General Keyboard Shortcuts</a></h2>
+<ul>
+<li>
+<p>⌘-SPC - Spotlight. Search for anything on your Mac: apps, text, filenames, etc.</p>
+<ul>
+<li>What to search for?
+<ul>
+<li>&quot;ter&quot; - Terminal.app - Sometimes just &quot;t&quot; is enough; Spotlight remembers frequency.</li>
+<li>&quot;sys&quot; - System Settings.app</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>⌘-TAB - Cycle between open apps. (⌘-SHFT-TAB goes the other way).</p>
+</li>
+<li>
+<p>⌘-n - New window in an app (e.g., new bash window in Terminal, new browser window in Chrome, new Finder window in Finder).</p>
+</li>
+<li>
+<p>⌘-w - Close active window in an app (e.g. a tab in your browser).</p>
+</li>
+<li>
+<p>⌘-` - Cycle between windows in an app.</p>
+</li>
+<li>
+<p>⌘-, - Open an app's settings (aka preferences).</p>
+</li>
+<li>
+<p>⌘-CTRL-SPC - Open the characters menu (emojis, symbols, etc.)</p>
+</li>
+</ul>
+<h3 id="capturing-screenshots"><a class="header" href="#capturing-screenshots">Capturing Screenshots</a></h3>
+<p><strong>Selecting and capturing a portion of the screen</strong></p>
+<ul>
+<li>⌘-SHFT-4 - Drag the crosshair to select.  Selected area is saved in a file on your Desktop.</li>
+<li>⌘-SHFT-Ctrl-4 - Drag the crosshair to select.  Selected area is saved to your copy buffer (paste with ⌘-v).</li>
+</ul>
+<p><strong>Selecting and capturing a window</strong></p>
+<ul>
+<li>⌘-SHFT-4, then SPC - When you tap SPC, the crosshair changes to a camera.  The active window is saved in a file on your Desktop.</li>
+<li>⌘-SHFT-Ctrl-4, then SPC - When you tap SPC, the crosshair changes to a camera.  The active window is saved to your copy buffer.</li>
+</ul>
+<h3 id="editing"><a class="header" href="#editing">Editing</a></h3>
+<ul>
+<li>⌘-c - Copy selected</li>
+<li>⌘-v - Paste selected</li>
+<li>⌘-x - Delete selected</li>
+<li>⌘-z - Undo</li>
+</ul>
+<h2 id="app-specific-shortcuts"><a class="header" href="#app-specific-shortcuts">App-specific shortcuts</a></h2>
+<h3 id="finder-shortcuts"><a class="header" href="#finder-shortcuts">Finder shortcuts</a></h3>
+<ul>
+<li>⌘-SHFT-n - New folder at top of hierarchy in current Finder view.</li>
+<li>⌘-BKSPC - Delete highlighted item (e.g. a file).  BE CAREFUL!</li>
+<li>&lt;right-arrow&gt; - Expand directory view.</li>
+<li>⌘-&lt;down-arrow&gt; - Zoom Finder view to highlighted sub-directory.</li>
+<li>⌘-&lt;up-arrow&gt; - Unzoom Finder view up on directory level.</li>
+</ul>
+<h3 id="browser-shortcuts"><a class="header" href="#browser-shortcuts">Browser shortcuts</a></h3>
+<ul>
+<li>⌘-+ - Increase font size.</li>
+<li>⌘-MINUS - Decrease font size.</li>
+<li>⌘-0 - Restore default font size.</li>
+<li>Ctrl-TAB - Cycle between tabs in active window.</li>
+<li>You can drag a tab out into its own window (and drag it back in too).</li>
+</ul>
+<h3 id="mission-control---birds-eye-view-of-windows-spaces-and-apps"><a class="header" href="#mission-control---birds-eye-view-of-windows-spaces-and-apps"><a href="https://support.apple.com/en-us/HT204100">Mission Control</a> - bird's-eye view of windows, spaces, and apps</a></h3>
+<ul>
+<li>When in Mission Control, add a workspace with &quot;+&quot; (top right corner)</li>
+<li>Ctrl-&lt;up-arrow&gt;</li>
+<li>Ctrl-&lt;right-arrow&gt;, Ctrl-&lt;left-arrow&gt; - switch workspaces</li>
+<li>Ctrl-&lt;down-arrow&gt; - app focus</li>
+</ul>
+<p>While in Mission Control, you can drag windows around to various desktops.</p>
+<p>To delete a desktop, hover over its thumbnail until a white &quot;X&quot; appears, and click the &quot;X&quot;.  (No windows in that desktop will be deleted; they will simply move to the previous desktop).</p>
+<p>Hit ESC to exit Mission Control.</p>
+<h2 id="gestures"><a class="header" href="#gestures">Gestures</a></h2>
+<p>In System Settings, search &quot;gestures&quot;, choose Trackpad gestures.</p>
+<p>Trackpad with drag lock:</p>
+<ul>
+<li>&quot;use trackpad for dragging&quot;</li>
+<li>&quot;with Drag Lock&quot;</li>
+</ul>
+<h3 id="terminalapp-zsh"><a class="header" href="#terminalapp-zsh">Terminal.app (zsh)</a></h3>
+<ul>
+<li>Tab to autocomplete file or directory names.</li>
+<li>⌘-k - Clear screen, including scrollback history.</li>
+<li>⌘-&lt;double-tap&gt; on a URL in the terminal window - Opens that URl in default browser.</li>
+<li>⌘-TAB - Open a new shell in the same window.
+<ul>
+<li>Ctrl-TAB - Cycle between tabs (similar to behavior with browser tabs).</li>
+<li>You can drag a tab out into its own window (also like browser tab, except that you can't drag it back in).</li>
+</ul>
+</li>
+</ul>
+<h3 id="explore"><a class="header" href="#explore">Explore</a></h3>
+<ul>
+<li>Trackpad has &quot;light&quot; click and &quot;firm&quot; click (aka &quot;force click&quot;).</li>
+<li>Function keys can be set to default to F1-12, or to the &quot;other&quot; mode (FN-&lt;fn-key&gt; accesses whatever the &quot;other&quot; mode is.  ⌘-SPC, &quot;function keys&quot;.</li>
+</ul>
 
                     </main>
 
