@@ -49,6 +49,16 @@ $ gcloud config get compute/zone
 us-east1-b
 ```
 
+Stop the cluster nodes (e.g., to minimize ongoing charges)
+```
+gcloud container clusters resize my-cluster --num-nodes=0
+```
+
+Delete the cluster
+```
+gcloud container clusters delete my-cluster
+```
+
 Look at the pushed image...
 ```
 $ gcloud artifacts docker images list
