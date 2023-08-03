@@ -321,8 +321,70 @@ f sync
 f workers
 f containers
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h3 id="retrieving-secrets-from-vault"><a class="header" href="#retrieving-secrets-from-vault">Retrieving secrets from Vault</a></h3>
-<p>In the bg-hw-deploy-refimpl project, the Concourse git resource has a couple of references characterized by surrounding double-parens (( ... ))):</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-vault-cli---reading-key-values"><a class="header" href="#the-vault-cli---reading-key-values">The Vault CLI - reading key-values</a></h1>
+<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault &quot;secret&quot;.</p>
+<h2 id="get-the-vault-cli"><a class="header" href="#get-the-vault-cli">Get the Vault CLI</a></h2>
+<pre><code>sudo apt install vault
+</code></pre>
+<p>If the install fails, you may need to add the repository to your machine.</p>
+<p>See:</p>
+<ul>
+<li><a href="https://learn.hashicorp.com/tutorials/vault/getting-started-install">Vault Getting Started</a></li>
+<li><a href="https://www.hashicorp.com/blog/announcing-the-hashicorp-linux-repository">Announcing the Hashicorp Linux Repository</a></li>
+</ul>
+<h2 id="get-a-vault-token"><a class="header" href="#get-a-vault-token">Get a Vault token</a></h2>
+<p>Assuming that ...</p>
+<ol>
+<li>You have Key-Values stored in a secret within a &quot;v2 Key-Value&quot; secrets engine on https://vault.mycompany.com (such as &quot;ansible&quot;), and</li>
+<li>You belong to a group with access to that engine, and</li>
+<li>Your group's policy lets you at least &quot;read&quot; and &quot;list&quot;,
+...then when you obtain authentication token, you'll be able to read those KV's.</li>
+</ol>
+<pre><code>$ export VAULT_ADDR=https://vault.mycompany.com
+$ export VAULT_NAMESPACE=unix
+$ export VAULT_TOKEN=         # Make sure VAULT_TOKEN is not set, otherwise the Vault CLI will use it instead of ~/.vault-token
+$ vault login -method=ldap username=$(id -un)
+Password (will be hidden):
+Success! You are now authenticated. The token information displayed below
+is already stored in the token helper. You do NOT need to run &quot;vault login&quot;
+again. Future Vault requests will automatically use this token.
+
+Key                    Value
+---                    -----
+token                  s.EqpuvurstSkoL8Xtnst0OKkB
+token_accessor         XMueQHm6hVr77sHLubc6Q5Az
+token_duration         1h
+token_renewable        true
+token_policies         [&quot;default&quot;]
+identity_policies      []
+policies               [&quot;default&quot;]
+token_meta_username    cwalquist
+</code></pre>
+<h2 id="use-the-token-for-vault-key-value-retrieval"><a class="header" href="#use-the-token-for-vault-key-value-retrieval">Use the token for Vault key-value retrieval</a></h2>
+<h3 id="retrieve-with-curl"><a class="header" href="#retrieve-with-curl">Retrieve with curl</a></h3>
+<p>One approach is to curl Vault, using the token for authentication.  This request returns a JSON bag of ALL the keys in the path (along with some metadata). jq is handy for parsing out what you need (in this case, the value of haproxy_license_key).</p>
+<p>(Note the use of the Vault CLI to spit out a curl command).</p>
+<pre><code>$ vault read -output-curl-string concourse/devops-apprentices/bg-hw-deploy-refimpl
+
+curl -H &quot;X-Vault-Namespace: unix/&quot; -H &quot;X-Vault-Token: $(vault print token)&quot; -H &quot;X-Vault-Request: true&quot; https://vault.mycompany.com/v1/concourse/devops-apprentices/bg-hw-deploy-refimpl
+
+# Add a &quot;-s&quot; to suppress extraneous curl output...
+curl -s -H &quot;X-Vault-Namespace: unix/&quot; -H &quot;X-Vault-Token: $(vault print token)&quot; -H &quot;X-Vault-Request: true&quot; \
+  https://vault.mycompany.com/v1/concourse/devops-apprentices/bg-hw-deploy-refimpl \
+  | jq .data.k8s_server_url
+
+&quot;https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh&quot;
+</code></pre>
+<pre><code># Use the Vault CLI to spit out json format directly
+$ vault read -format=json concourse/devops-apprentices/bg-hw-deploy-refimpl \
+  | jq .data.k8s_server_url
+</code></pre>
+<h3 id="retrieve-the-keys-value-with-the-vault-cli"><a class="header" href="#retrieve-the-keys-value-with-the-vault-cli">Retrieve the key's value with the Vault CLI</a></h3>
+<pre><code>$ vault kv get -field k8s_server_url concourse/devops-apprentices/bg-hw-deploy-refimpl
+https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh
+</code></pre>
+<h3 id="concourse---retrieving-secrets-from-vault"><a class="header" href="#concourse---retrieving-secrets-from-vault">Concourse - Retrieving secrets from Vault</a></h3>
+<p>In the bg-hw-deploy-refimpl Kubernetes project, the Concourse git resource has a couple of references characterized by surrounding double-parens (( ... ))):</p>
 <pre><code>...
   - name: bg-hw-deploy-refimpl-app-repo
     type: git
@@ -330,12 +392,14 @@ f containers
     webhook_token: ((git-app-repo.webhook_token))
     check_every: 4h
     source:
-      uri: git@git.drwholdings.com:apprenticeship/bg-hw-deploy-refimpl-app.git
+      uri: git@github.com:apprenticeship/bg-hw-deploy-refimpl-app.git
       private_key: ((git-app-repo.deploy_key))
       branch: main
 ...
 </code></pre>
-<p>These are <a href="https://concourse-ci.org/vars.html#var-syntax">Concourse Vars</a>, referencing secrets in Vault.  Vault references are controlled by a <a href="https://concourse-ci.org/vars.html#cluster-wide-credential-manager">Concourse-cluster-wide credential manager</a>, which requires Concourse secrets to live somewhere under https://vault.drw, in the <code>/unix/concourse</code> namespace (there is no https:vault-uat.drw available to Concourse, unfortunately).</p>
+<p>These are <a href="https://concourse-ci.org/vars.html#var-syntax">Concourse Vars</a>, referencing secrets in Vault.</p>
+<p>At mycompany.com/ $
+Vault references are controlled by a <a href="https://concourse-ci.org/vars.html#cluster-wide-credential-manager">Concourse-cluster-wide credential manager</a>, which requires Concourse secrets to live somewhere under the <code>concourse</code> path in the <code>/unix</code> namespace at https://vault.mycompany.com.</p>
 <p>More Vault info:</p>
 <ul>
 <li><a href="https://concourse-ci.org/vars.html#var-syntax">Referencing Vault Secrets with Concourse Vars</a></li>
