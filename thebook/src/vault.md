@@ -49,13 +49,13 @@ One approach is to curl Vault, using the token for authentication.  This request
 (Note the use of the Vault CLI to spit out a curl command).
 
 ```
-$ vault read -output-curl-string concourse/devops-apprentices/bg-hw-deploy-refimpl
+$ vault read -output-curl-string concourse/myteam/mydeploy
 
-curl -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" https://vault.mycompany.com/v1/concourse/devops-apprentices/bg-hw-deploy-refimpl
+curl -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" https://vault.mycompany.com/v1/concourse/myteam/mydeploy
 
 # Add a "-s" to suppress extraneous curl output...
 curl -s -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" \
-  https://vault.mycompany.com/v1/concourse/devops-apprentices/bg-hw-deploy-refimpl \
+  https://vault.mycompany.com/v1/concourse/myteam/mydeploy \
   | jq .data.k8s_server_url
 
 "https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh"
@@ -64,38 +64,40 @@ curl -s -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -
 
 ```
 # Use the Vault CLI to spit out json format directly
-$ vault read -format=json concourse/devops-apprentices/bg-hw-deploy-refimpl \
+$ vault read -format=json concourse/myteam/mydeploy \
   | jq .data.k8s_server_url
 ```
 
 ### Retrieve the key's value with the Vault CLI
 
 ```
-$ vault kv get -field k8s_server_url concourse/devops-apprentices/bg-hw-deploy-refimpl
+$ vault kv get -field k8s_server_url concourse/myteam/mydeploy
 https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh
 ```
 
 
 ### Concourse - Retrieving secrets from Vault
-In the bg-hw-deploy-refimpl Kubernetes project, the Concourse git resource has a couple of references characterized by surrounding double-parens (( ... ))):
+In the `mydeploy` Concourse config, the git resource has a couple of references characterized by surrounding double-parens (( ... ))):
 ```
 ...
-  - name: bg-hw-deploy-refimpl-app-repo
+  - name: mydeploy-app-repo
     type: git
     icon: github
-    webhook_token: ((git-app-repo.webhook_token))
+    webhook_token: ((mydeploy.app_webhook_token))
     check_every: 4h
     source:
-      uri: git@github.com:apprenticeship/bg-hw-deploy-refimpl-app.git
-      private_key: ((git-app-repo.deploy_key))
+      uri: git@github.com:myorg/mydeploy.git
+      private_key: ((mydeploy.app_private_deploy_key))
       branch: main
 ...
 ```
 These are [Concourse Vars](https://concourse-ci.org/vars.html#var-syntax), referencing secrets in Vault.
 
-At mycompany.com/ $
-Vault references are controlled by a [Concourse-cluster-wide credential manager](https://concourse-ci.org/vars.html#cluster-wide-credential-manager), which requires Concourse secrets to live somewhere under the `concourse` path in the `/unix` namespace at https://vault.mycompany.com.
+Vault references are controlled by a [Concourse-cluster-wide credential manager](https://concourse-ci.org/vars.html#cluster-wide-credential-manager).  This excerpt is relevant:
 
+> For credential managers like Vault that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; the key `foo` is expected under `/concourse/(team-name)/(pipeline-name)/foo`.
+
+So for example, Concourse keys for the `mydeploy` pipeline in the `myteam` Concourse team must live in the designated Vault namespace (such as `/unix`), under the `/concourse/myteam/mydeploy` path prefix at https://vault.mycompany.com.
 
 More Vault info:
 - [Referencing Vault Secrets with Concourse Vars](https://concourse-ci.org/vars.html#var-syntax)
