@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s-kubectl/api.html"><strong aria-hidden="true">5.1.</strong> k8s API and kubectl</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -293,6 +293,56 @@ $ k exec --stdin --tty codelabs-wl-77f89d845f-vr649 -- /bin/bash
 $ kubectl describe pod &lt;pod-id&gt;
 $ kubectl get namespaces
 $ kubectl config current-context
+</code></pre>
+<p>Miscellaneous debugging:</p>
+<pre><code>$ kubectl config view   # See what kubectl thinks your config is
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="k8s-api-and-kubectl"><a class="header" href="#k8s-api-and-kubectl">k8s API and kubectl</a></h1>
+<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a>, which is actually many API's, organized into purpose-specific <strong>API Groups</strong>.  The <code>apiGroups</code> list in the yaml for an RBAC role definition corresponds to a component of the REST URL.  For instance, this <code>ClusterRole</code> resource definition. </p>
+<pre><code>apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  # &quot;namespace&quot; is omitted since ClusterRoles are not namespaced; thus,
+  # entities in various namespaces can be associated (or &quot;bound&quot;) to the app-deployer role.
+  name: app-deployer
+rules:
+- apiGroups: [&quot;apps&quot;,&quot;networking.k8s.io&quot;,&quot;&quot;]
+  # at the HTTP level, the name of the resource for accessing Secret objects is &quot;secrets&quot;
+  resources: [&quot;pods&quot;, &quot;deployments&quot;, &quot;ingresses&quot;, &quot;secrets&quot;, &quot;services&quot;]
+  # These correspond mostly to HTTP verbs, although k8s implements &quot;create&quot; and &quot;update&quot; with PUT
+  verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;patch&quot;, &quot;delete&quot;, &quot;create&quot;, &quot;update&quot;]
+</code></pre>
+<p>(<code>&quot;&quot;</code> represents the Core apiGroup, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s-kubectl/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it, </p>
+<blockquote>
+<p>core resources use <code>/api</code> instead of <code>/apis</code> and omit the GROUP path segment.</p>
+</blockquote>
+<h2 id="calling-the-k8s-rest-api-directly-with-https"><a class="header" href="#calling-the-k8s-rest-api-directly-with-https">Calling the k8s REST API directly with HTTPS</a></h2>
+<p>Or in other words, let's pretend to be a browser (like kubectl), and use <code>curl</code> to make HTTP calls.</p>
+<p><a href="https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/">This post</a> has a pretty good walk-through.</p>
+<p>How about getting info for a specific pod, as described in the k8s pod reference under <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Operations">Operations</a>?</p>
+<p>Assuming you have some pods running, first &quot;cheat&quot; and get a pod name with <code>kubectl get pods</code>:</p>
+<pre><code>kubectl get pods
+NAME                                   READY   STATUS    RESTARTS   AGE
+blue-helloworld-wl-84c98bfbdf-29hh7    1/1     Running   0          25h
+green-helloworld-wl-7fd747c8cb-h5cnx   1/1     Running   0          26h
+</code></pre>
+<p>Now, using the API reference, let's construct a URL.  You'll need these pieces of info:</p>
+<ul>
+<li>The pod name</li>
+<li>The namespace name</li>
+<li>The base URL, which is your cluster's value of <code>server</code> in your <code>~/.kube/config</code>.  From there, tack on the reference's indicated URL path, beginning with <code>/apis</code>.  For instance...</li>
+</ul>
+<pre><code>https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7
+</code></pre>
+<p>(Note that <code>pods</code> is a core API resource; we can tell because it uses <code>/api</code> instead of <code>/apis</code> in its REST path, and that path has no <code>apiGroup</code> component).</p>
+<p>You'll also need an authorization token associated with your user, or with a service account having sufficient permissions.</p>
+<p>Postman is a great tool with which to poke at APIs.  I used it to generate this curl command:</p>
+<pre><code>token=aLongAuthorizationTokenStringAssociatedWithYourServiceAccount
+curl -s --header &quot;Authorization: Bearer $token&quot; --cacert /tmp/ap-dev-use2-1.crt https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7
+</code></pre>
+<p>Notice that I also passed a Certificate Authority (CA) cert into curl, so that it wouldn't fail with an SSL error.  This cert file came from the <code>certificate-authority-data</code> field in <code>~/.kube/config</code> for the cluster; because it's encoded, it required decoding first:</p>
+<pre><code>encoded_token=aLongCopyPastedCACertFromKubeSlashConfig
+echo $encoded_token | base64 -d &gt; /tmp/ap-dev-use2-1.crt
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
 <pre><code>brew install fly
