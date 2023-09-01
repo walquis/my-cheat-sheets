@@ -4,6 +4,7 @@
 - [gcloud - Google Cloud CLI](./gcloud-cli.md)
 - [docker CLI](./docker-cli.md)
 - [Kubernetes - kubectl CLI](./k8s-kubectl.md)
+  - [k8s API and kubectl](k8s-kubectl/api.md)
 - [Concourse-CI](./concourse-ci.md)
 - [Vault](./vault.md)
 - [Mac keyboard shortcuts](./mac-keyboard-shortcuts-etc.md)

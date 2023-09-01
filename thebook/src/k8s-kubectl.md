@@ -40,3 +40,8 @@ $ kubectl describe pod <pod-id>
 $ kubectl get namespaces
 $ kubectl config current-context
 ```
+
+Miscellaneous debugging:
+```
+$ kubectl config view   # See what kubectl thinks your config is
+```
