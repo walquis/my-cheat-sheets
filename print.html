@@ -298,7 +298,7 @@ $ kubectl config current-context
 <pre><code>$ kubectl config view   # See what kubectl thinks your config is
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="k8s-api-and-kubectl"><a class="header" href="#k8s-api-and-kubectl">k8s API and kubectl</a></h1>
-<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a>, which is actually many API's, organized into purpose-specific <strong>API Groups</strong>.  The <code>apiGroups</code> list in the yaml for an RBAC role definition corresponds to a component of the REST URL.  For instance, this <code>ClusterRole</code> resource definition. </p>
+<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a>, which is actually many API's organized into purpose-specific <strong>API Groups</strong>.  The list of <code>apiGroups</code> in an RBAC role definition's yaml corresponds to a component (aka &quot;GROUP path segment&quot;) of the REST URL.  For instance, this <code>ClusterRole</code> resource definition specifies rules for apis beginning with <code>/apis/apps</code>, <code>/apis/networking.k8s.io</code>, and <code>/api</code>.</p>
 <pre><code>apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -312,15 +312,15 @@ rules:
   # These correspond mostly to HTTP verbs, although k8s implements &quot;create&quot; and &quot;update&quot; with PUT
   verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;patch&quot;, &quot;delete&quot;, &quot;create&quot;, &quot;update&quot;]
 </code></pre>
-<p>(<code>&quot;&quot;</code> represents the Core apiGroup, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s-kubectl/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it, </p>
+<p>The <code>&quot;&quot;</code> entry represents the Core <code>apiGroup</code>, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s-kubectl/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it,</p>
 <blockquote>
 <p>core resources use <code>/api</code> instead of <code>/apis</code> and omit the GROUP path segment.</p>
 </blockquote>
 <h2 id="calling-the-k8s-rest-api-directly-with-https"><a class="header" href="#calling-the-k8s-rest-api-directly-with-https">Calling the k8s REST API directly with HTTPS</a></h2>
-<p>Or in other words, let's pretend to be a browser (like kubectl), and use <code>curl</code> to make HTTP calls.</p>
+<p>Let's pretend to be a browser (like kubectl does), and make HTTP calls to k8s with <code>curl</code>.</p>
 <p><a href="https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/">This post</a> has a pretty good walk-through.</p>
 <p>How about getting info for a specific pod, as described in the k8s pod reference under <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Operations">Operations</a>?</p>
-<p>Assuming you have some pods running, first &quot;cheat&quot; and get a pod name with <code>kubectl get pods</code>:</p>
+<p>Assuming you have some pods running, first &quot;cheat&quot; and use kubectl to get a pod name, with <code>kubectl get pods</code>:</p>
 <pre><code>kubectl get pods
 NAME                                   READY   STATUS    RESTARTS   AGE
 blue-helloworld-wl-84c98bfbdf-29hh7    1/1     Running   0          25h
@@ -335,15 +335,23 @@ green-helloworld-wl-7fd747c8cb-h5cnx   1/1     Running   0          26h
 <pre><code>https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7
 </code></pre>
 <p>(Note that <code>pods</code> is a core API resource; we can tell because it uses <code>/api</code> instead of <code>/apis</code> in its REST path, and that path has no <code>apiGroup</code> component).</p>
-<p>You'll also need an authorization token associated with your user, or with a service account having sufficient permissions.</p>
-<p>Postman is a great tool with which to poke at APIs.  I used it to generate this curl command:</p>
+<p>You'll also need an authorization token associated with your user or with a service account having sufficient permissions.</p>
+<p>Postman is a great tool with which to poke at APIs.  I used it to generate this curl command (and appended <code>&gt; pod.json</code>):</p>
 <pre><code>token=aLongAuthorizationTokenStringAssociatedWithYourServiceAccount
-curl -s --header &quot;Authorization: Bearer $token&quot; --cacert /tmp/ap-dev-use2-1.crt https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7
+curl -s --header &quot;Authorization: Bearer $token&quot; --cacert /tmp/ap-dev-use2-1.crt https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7 \
+&gt; pod.json
 </code></pre>
-<p>Notice that I also passed a Certificate Authority (CA) cert into curl, so that it wouldn't fail with an SSL error.  This cert file came from the <code>certificate-authority-data</code> field in <code>~/.kube/config</code> for the cluster; because it's encoded, it required decoding first:</p>
+<p>Notice that I also passed a Certificate Authority (CA) cert into curl, so that it wouldn't fail with an SSL error.  This cert file came from the <code>certificate-authority-data</code> field in <code>~/.kube/config</code> for the cluster; because it's base64-encoded, it required decoding first:</p>
 <pre><code>encoded_token=aLongCopyPastedCACertFromKubeSlashConfig
 echo $encoded_token | base64 -d &gt; /tmp/ap-dev-use2-1.crt
 </code></pre>
+<p>(If you want to skip the SSL CA cert part, you can bypass <code>--cacert</code> and use the <code>-k</code> option instead).</p>
+<p>You'll get back some JSON about the pod, saved into <code>pod.json</code>.  If you like, you can parse and filter it with <a href="https://jqlang.github.io/jq/tutorial">jq</a>...</p>
+<pre><code>cat pod.json | jq '{state: .status.phase}'
+&quot;Running&quot;
+</code></pre>
+<p><strong>Exercise for the reader</strong>: Go back to where we used kubectl to &quot;cheat&quot; and get a list of pods.  Instead of using kubectl, call the API directly with <code>curl</code> to get this list.</p>
+<p>As a bonus, filter the JSON with jq to print just the pod names.  Hover <a href="k8s-kubectl/doesnotexist.jpg," title="cat pods.json| jq '.items[].metadata.name'">here</a> for a jq solution that prints pod names. Or <a href="k8s-kubectl/doesnotexist.jpg," title="cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'">here</a> for a jq solution that prints more attributes of each pod.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
 <pre><code>brew install fly
 </code></pre>
