@@ -1,6 +1,7 @@
 ## Kubernetes
+kubectl is a client wrapper around the k8s REST API.
 
-Handy alias: `k`
+Handy alias for kubectl: `k`
 ```
 $ alias k='kubectl --kubeconfig ~/.kube/apprenticeship.tr-lab-chhq-1.yaml'
 

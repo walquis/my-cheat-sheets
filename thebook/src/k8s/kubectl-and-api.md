@@ -1,6 +1,6 @@
 # k8s API and kubectl
 
-(digressing from cheat-sheet into tutorial territory, I know...)
+(This is digressing from cheat-sheet into tutorial territory, I know...)
 
 Kubectl is a command-line wrapper around the [k8s REST API](https://kubernetes.io/docs/reference/kubernetes-api/)[^what-is-rest], which is actually many API's organized into purpose-specific **API Groups**.  The list of `apiGroups` in an RBAC role definition's yaml corresponds to a component (aka "GROUP path segment") of the REST URL.  For instance, this `ClusterRole` resource definition specifies rules for apis beginning with `/apis/apps`, `/apis/networking.k8s.io`, and `/api`.
 
