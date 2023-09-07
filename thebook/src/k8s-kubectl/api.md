@@ -1,5 +1,8 @@
 # k8s API and kubectl
-Kubectl is a command-line wrapper around the [k8s REST API](https://kubernetes.io/docs/reference/kubernetes-api/), which is actually many API's organized into purpose-specific **API Groups**.  The list of `apiGroups` in an RBAC role definition's yaml corresponds to a component (aka "GROUP path segment") of the REST URL.  For instance, this `ClusterRole` resource definition specifies rules for apis beginning with `/apis/apps`, `/apis/networking.k8s.io`, and `/api`.
+
+(digressing from cheat-sheet into tutorial territory, I know...)
+
+Kubectl is a command-line wrapper around the [k8s REST API](https://kubernetes.io/docs/reference/kubernetes-api/)[^what-is-rest], which is actually many API's organized into purpose-specific **API Groups**.  The list of `apiGroups` in an RBAC role definition's yaml corresponds to a component (aka "GROUP path segment") of the REST URL.  For instance, this `ClusterRole` resource definition specifies rules for apis beginning with `/apis/apps`, `/apis/networking.k8s.io`, and `/api`.
 
 ```
 apiVersion: rbac.authorization.k8s.io/v1
@@ -19,7 +22,7 @@ The `""` entry represents the Core `apiGroup`, whose REST endpoints have no apiG
 > core resources use `/api` instead of `/apis` and omit the GROUP path segment.
 
 ## Calling the k8s REST API directly with HTTPS
-Let's pretend to be a browser (like kubectl does), and make HTTP calls to k8s with `curl`.
+Let's be an HTTP client (like kubectl), and make HTTP REST calls to k8s with `curl`.
 
 [This post](https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/) has a pretty good walk-through.
 
@@ -68,4 +71,7 @@ cat pod.json | jq '{state: .status.phase}'
 
 **Exercise for the reader**: Go back to where we used kubectl to "cheat" and get a list of pods.  Instead of using kubectl, call the API directly with `curl` to get this list.
 
-As a bonus, filter the JSON with jq to print just the pod names.  Hover [here](doesnotexist.jpg, "cat pods.json| jq '.items[].metadata.name'") for a jq solution that prints pod names. Or [here](doesnotexist.jpg, "cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'") for a jq solution that prints more attributes of each pod.
+As a bonus, filter the JSON response with jq to print just the pod names.  Hover [here](doesnotexist.jpg, "cat pods.json| jq '.items[].metadata.name'") for a jq solution that prints pod names. Or [here](doesnotexist.jpg, "cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'") for a jq solution that prints more attributes of each pod.
+
+---
+[^what-is-rest] - What is REST?  See Amazon AWS's [What Is A RESTful API?](https://aws.amazon.com/what-is/restful-api/) for an overview.
