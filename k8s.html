@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Kubernetes - kubectl CLI - Cheat Sheets</title>
+        <title>Kubernetes - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -83,7 +83,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html" class="active"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s-kubectl/api.html"><strong aria-hidden="true">5.1.</strong> k8s API and kubectl</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s.html" class="active"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -167,7 +167,8 @@
                 <div id="content" class="content">
                     <main>
                         <h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
-<p>Handy alias: <code>k</code></p>
+<p>kubectl is a client wrapper around the k8s REST API.</p>
+<p>Handy alias for kubectl: <code>k</code></p>
 <pre><code>$ alias k='kubectl --kubeconfig ~/.kube/apprenticeship.tr-lab-chhq-1.yaml'
 
 $ k config set-context --current --namespace=bg-helloworld-reference-impl-ns
@@ -213,7 +214,7 @@ $ kubectl config current-context
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="k8s-kubectl/api.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="k8s/kubectl-and-api.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -227,7 +228,7 @@ $ kubectl config current-context
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="k8s-kubectl/api.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="k8s/kubectl-and-api.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

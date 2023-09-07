@@ -84,7 +84,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s-kubectl.html"><strong aria-hidden="true">5.</strong> Kubernetes - kubectl CLI</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s-kubectl/api.html"><strong aria-hidden="true">5.1.</strong> k8s API and kubectl</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -260,7 +260,8 @@ docker push $docker_tag
 </code></pre>
 <p>I needed to tell Docker on my M2 mac to build for the linudx/amd64 platform, which I did using the <code>--platform=linux/amd64</code> option to the FROM directive in my Dockerfile.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
-<p>Handy alias: <code>k</code></p>
+<p>kubectl is a client wrapper around the k8s REST API.</p>
+<p>Handy alias for kubectl: <code>k</code></p>
 <pre><code>$ alias k='kubectl --kubeconfig ~/.kube/apprenticeship.tr-lab-chhq-1.yaml'
 
 $ k config set-context --current --namespace=bg-helloworld-reference-impl-ns
@@ -298,7 +299,7 @@ $ kubectl config current-context
 <pre><code>$ kubectl config view   # See what kubectl thinks your config is
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="k8s-api-and-kubectl"><a class="header" href="#k8s-api-and-kubectl">k8s API and kubectl</a></h1>
-<p>(digressing from cheat-sheet into tutorial territory, I know...)</p>
+<p>(This is digressing from cheat-sheet into tutorial territory, I know...)</p>
 <p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a><sup class="footnote-reference"><a href="#what-is-rest">1</a></sup>, which is actually many API's organized into purpose-specific <strong>API Groups</strong>.  The list of <code>apiGroups</code> in an RBAC role definition's yaml corresponds to a component (aka &quot;GROUP path segment&quot;) of the REST URL.  For instance, this <code>ClusterRole</code> resource definition specifies rules for apis beginning with <code>/apis/apps</code>, <code>/apis/networking.k8s.io</code>, and <code>/api</code>.</p>
 <pre><code>apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
@@ -313,7 +314,7 @@ rules:
   # These correspond mostly to HTTP verbs, although k8s implements &quot;create&quot; and &quot;update&quot; with PUT
   verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;patch&quot;, &quot;delete&quot;, &quot;create&quot;, &quot;update&quot;]
 </code></pre>
-<p>The <code>&quot;&quot;</code> entry represents the Core <code>apiGroup</code>, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s-kubectl/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it,</p>
+<p>The <code>&quot;&quot;</code> entry represents the Core <code>apiGroup</code>, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it,</p>
 <blockquote>
 <p>core resources use <code>/api</code> instead of <code>/apis</code> and omit the GROUP path segment.</p>
 </blockquote>
@@ -352,9 +353,56 @@ echo $encoded_token | base64 -d &gt; /tmp/ap-dev-use2-1.crt
 &quot;Running&quot;
 </code></pre>
 <p><strong>Exercise for the reader</strong>: Go back to where we used kubectl to &quot;cheat&quot; and get a list of pods.  Instead of using kubectl, call the API directly with <code>curl</code> to get this list.</p>
-<p>As a bonus, filter the JSON response with jq to print just the pod names.  Hover <a href="k8s-kubectl/doesnotexist.jpg," title="cat pods.json| jq '.items[].metadata.name'">here</a> for a jq solution that prints pod names. Or <a href="k8s-kubectl/doesnotexist.jpg," title="cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'">here</a> for a jq solution that prints more attributes of each pod.</p>
+<p>As a bonus, filter the JSON response with jq to print just the pod names.  Hover <a href="k8s/doesnotexist.jpg," title="cat pods.json| jq '.items[].metadata.name'">here</a> for a jq solution that prints pod names. Or <a href="k8s/doesnotexist.jpg," title="cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'">here</a> for a jq solution that prints more attributes of each pod.</p>
 <hr />
 <p><sup class="footnote-reference"><a href="#what-is-rest">1</a></sup> - What is REST?  See Amazon AWS's <a href="https://aws.amazon.com/what-is/restful-api/">What Is A RESTful API?</a> for an overview.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="labels-selectors-annotations"><a class="header" href="#labels-selectors-annotations">Labels, Selectors, Annotations</a></h1>
+<h2 id="labels"><a class="header" href="#labels">Labels</a></h2>
+<h3 id="needed-for-gluing-k8s-resources-together"><a class="header" href="#needed-for-gluing-k8s-resources-together">Needed for gluing k8s resources together</a></h3>
+<p>For instance, a <code>deployment</code> resource must define a label in its pod template metadata, so that a <code>service</code> resource can select pods by-label for routing traffic to them.</p>
+<h3 id="handy-for-getting-organized---querying-diverse-k8s-resources-by-custom-label"><a class="header" href="#handy-for-getting-organized---querying-diverse-k8s-resources-by-custom-label">Handy for getting organized - querying diverse k8s resources by-custom-label</a></h3>
+<p>For instance, a <code>pod</code> resource might belong to several categories of label:</p>
+<pre><code>labels:
+  app: guestbook
+  tier: backend
+  role: master
+  environment: qa
+</code></pre>
+<p>You can query pods by-label like this:</p>
+<pre><code># -l &lt;query&gt; - this one shows pods in production AND qa environments;
+# -Lrole displays value of ROLE label as a column in the output
+#
+$ k get pods -l 'environment in (production,qa)' -Lrole
+</code></pre>
+<ul>
+<li>Label prefixes (<code>some-prefix/some-label</code>) are optional.  Handy for avoiding naming conflicts</li>
+<li>Label values can be empty</li>
+<li>Total length must be 64 chars or less</li>
+</ul>
+<h2 id="selectors"><a class="header" href="#selectors">Selectors</a></h2>
+<p><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#set-references-in-api-objects">Some Kubernetes objects, such as services and replicationcontrollers, also use label selectors to specify sets of other resources, such as pods.</a></p>
+<p>Below is an example of a service selecting a pod by its <code>my-app</code> app label.</p>
+<pre><code>---
+apiVersion: apps/v1
+kind: Deployment
+spec:
+  template:
+    metadata:
+      labels:
+        app: my-app
+...
+
+---
+apiVersion: v1
+kind: Service
+spec:
+  selector:
+    app: my-app
+</code></pre>
+<h2 id="annotations"><a class="header" href="#annotations">Annotations</a></h2>
+<p>Annotations, unlike labels, are NOT used for resources queries.</p>
+<h2 id="matchlabels-matchexpressions"><a class="header" href="#matchlabels-matchexpressions">matchLabels, matchExpressions</a></h2>
+<p>For specifying set-based requirements in selectors.  Supported by newer resources (but not by <code>Service</code>, which supports <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#service-and-replicationcontroller">only equality-based selectors</a>).</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
 <pre><code>brew install fly
 </code></pre>
