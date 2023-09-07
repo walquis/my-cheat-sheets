@@ -167,7 +167,8 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="k8s-api-and-kubectl"><a class="header" href="#k8s-api-and-kubectl">k8s API and kubectl</a></h1>
-<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a>, which is actually many API's organized into purpose-specific <strong>API Groups</strong>.  The list of <code>apiGroups</code> in an RBAC role definition's yaml corresponds to a component (aka &quot;GROUP path segment&quot;) of the REST URL.  For instance, this <code>ClusterRole</code> resource definition specifies rules for apis beginning with <code>/apis/apps</code>, <code>/apis/networking.k8s.io</code>, and <code>/api</code>.</p>
+<p>(digressing from cheat-sheet into tutorial territory, I know...)</p>
+<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a><sup class="footnote-reference"><a href="#what-is-rest">1</a></sup>, which is actually many API's organized into purpose-specific <strong>API Groups</strong>.  The list of <code>apiGroups</code> in an RBAC role definition's yaml corresponds to a component (aka &quot;GROUP path segment&quot;) of the REST URL.  For instance, this <code>ClusterRole</code> resource definition specifies rules for apis beginning with <code>/apis/apps</code>, <code>/apis/networking.k8s.io</code>, and <code>/api</code>.</p>
 <pre><code>apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
@@ -186,7 +187,7 @@ rules:
 <p>core resources use <code>/api</code> instead of <code>/apis</code> and omit the GROUP path segment.</p>
 </blockquote>
 <h2 id="calling-the-k8s-rest-api-directly-with-https"><a class="header" href="#calling-the-k8s-rest-api-directly-with-https">Calling the k8s REST API directly with HTTPS</a></h2>
-<p>Let's pretend to be a browser (like kubectl does), and make HTTP calls to k8s with <code>curl</code>.</p>
+<p>Let's be an HTTP client (like kubectl), and make HTTP REST calls to k8s with <code>curl</code>.</p>
 <p><a href="https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/">This post</a> has a pretty good walk-through.</p>
 <p>How about getting info for a specific pod, as described in the k8s pod reference under <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Operations">Operations</a>?</p>
 <p>Assuming you have some pods running, first &quot;cheat&quot; and use kubectl to get a pod name, with <code>kubectl get pods</code>:</p>
@@ -220,7 +221,9 @@ echo $encoded_token | base64 -d &gt; /tmp/ap-dev-use2-1.crt
 &quot;Running&quot;
 </code></pre>
 <p><strong>Exercise for the reader</strong>: Go back to where we used kubectl to &quot;cheat&quot; and get a list of pods.  Instead of using kubectl, call the API directly with <code>curl</code> to get this list.</p>
-<p>As a bonus, filter the JSON with jq to print just the pod names.  Hover <a href="doesnotexist.jpg," title="cat pods.json| jq '.items[].metadata.name'">here</a> for a jq solution that prints pod names. Or <a href="doesnotexist.jpg," title="cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'">here</a> for a jq solution that prints more attributes of each pod.</p>
+<p>As a bonus, filter the JSON response with jq to print just the pod names.  Hover <a href="doesnotexist.jpg," title="cat pods.json| jq '.items[].metadata.name'">here</a> for a jq solution that prints pod names. Or <a href="doesnotexist.jpg," title="cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'">here</a> for a jq solution that prints more attributes of each pod.</p>
+<hr />
+<p><sup class="footnote-reference"><a href="#what-is-rest">1</a></sup> - What is REST?  See Amazon AWS's <a href="https://aws.amazon.com/what-is/restful-api/">What Is A RESTful API?</a> for an overview.</p>
 
                     </main>
 
