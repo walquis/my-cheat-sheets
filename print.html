@@ -1,17 +1,17 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js rust">
+<html lang="en" class="rust" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
         <title>Cheat Sheets</title>
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex">
 
 
         <!-- Custom HTML head -->
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="favicon.svg">
         <link rel="shortcut icon" href="favicon.png">
@@ -32,7 +32,7 @@
         <!-- Custom theme stylesheets -->
 
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
@@ -62,24 +62,29 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('rust')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
+            var body = document.querySelector('body');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
@@ -117,9 +122,9 @@
                                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
@@ -244,19 +249,41 @@ $ kubectl get namespaces
 $ kubectl config current-context
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
-<pre><code>$ docker build --progress=plain -t tt .
-$ docker run -p 3000:3000 -it tt  # run the container
-$ docker run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
-$ docker exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
+<pre><code>alias d=docker  # Save typing
+
+d inspect the-image-name-or-ID | jq '.[].Config.Cmd'
+d image ls
+d ps
+</code></pre>
+<p>Managing storage:</p>
+<pre><code>d history &lt;image&gt;
+d system df
+
+d image prune # clears images w/o tags (dangling images)
+d builder prune # clears image build cache
+
+d manifest inspect &lt;image&gt;  # on a remote registry only--not local
+d inspect &lt;container&gt; | jq '.[].Config'
+</code></pre>
+<p>Other stuff:</p>
+<pre><code>d commit &lt;container&gt; &lt;new-image-name&gt;  # Snapshot a running container to an image
+
+d volume create demo1 # Persistent volumes
+</code></pre>
+<p>Building and running; SSH'ing into a running container</p>
+<pre><code>$ d build --progress=plain -t tt .
+$ d run -p 3000:3000 -it tt  # run the container
+$ d run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
+$ d exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
 </code></pre>
 <p>Build and tag an image at the same time, and publish to Artifactory, with a git sha as an image tag...</p>
 <pre><code>image_tag=`git rev-parse --short HEAD`
-docker_tag=artifacts.drwholdings.com/apprenticeship-docker-local-default/bg-hw-deploy-refimpl:$image_tag
-docker build -t $docker_tag .
-docker push $docker_tag
+docker_tag=&lt;company-artifactory-url&gt;/apprenticeship-docker-local-default/bg-hw-deploy-refimpl:$image_tag
+d build -t $docker_tag .
+d push $docker_tag
 </code></pre>
 <p>The following command helped me debug an <code>exec format error</code> issue for a pod trying to start a container from my image; it showed that my <code>helloworld</code> image was an <code>arm64</code> image.</p>
-<pre><code>docker inspect helloworld | grep -i arch
+<pre><code>d inspect helloworld | grep -i arch
 </code></pre>
 <p>I needed to tell Docker on my M2 mac to build for the linudx/amd64 platform, which I did using the <code>--platform=linux/amd64</code> option to the FROM directive in my Dockerfile.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
