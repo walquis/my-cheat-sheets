@@ -218,6 +218,50 @@ spec:
 <p>Annotations, unlike labels, are NOT used for resources queries.</p>
 <h2 id="matchlabels-matchexpressions"><a class="header" href="#matchlabels-matchexpressions">matchLabels, matchExpressions</a></h2>
 <p>For specifying set-based requirements in selectors.  Supported by newer resources (but not by <code>Service</code>, which supports <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/#service-and-replicationcontroller">only equality-based selectors</a>).</p>
+<h2 id="labels-and-selectors-in-deployment-manifests"><a class="header" href="#labels-and-selectors-in-deployment-manifests">Labels and Selectors in Deployment manifests</a></h2>
+<p>Looking at deployment yaml, there are three different <code>labels</code> sections.  Their content often tends to be similar or identical, so it's puzzling why they live in so many places.  What are their purposes?</p>
+<p>Consider this snippet of a typical Deployment yaml:</p>
+<pre><code>apiVersion: apps/v1
+kind: Deployment
+metadata:
+  ...
+  labels:
+    app: my-web-app
+    app_env: development
+  name: the-web-app
+  namespace: the-web-app-ns
+spec:
+  selector:
+    matchLabels:
+      app: my-web-app
+      app_env: development
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: my-web-app
+        app_env: development
+    spec:
+      containers:
+      ...
+</code></pre>
+<p><code>labels</code> sections live in these places:</p>
+<ol>
+<li>The Deployment's metadata</li>
+<li>The Deployment's spec.selector.matchLabels</li>
+<li>The Deployment's spec.template.metadata</li>
+</ol>
+<h3 id="deployment-metadatalabels"><a class="header" href="#deployment-metadatalabels">Deployment metadata.labels</a></h3>
+<p>The deployment's metadata.labels help with operations based on that deployment, e.g., deleting by querying with <code>-l</code> flag.</p>
+<h3 id="deployment-specselectormatchlabels"><a class="header" href="#deployment-specselectormatchlabels">Deployment spec.selector.matchLabels</a></h3>
+<p>A deployment uses the <code>matchLabels</code> selector to locate the pods it’s responsible for managing.  If no pods with those labels when the deployment is first created, the deployment will do nothing. But if there are, the deployment will manage those pods.</p>
+<h3 id="deployment-spectemplatemetadatalabels"><a class="header" href="#deployment-spectemplatemetadatalabels">Deployment spec.template.metadata.labels</a></h3>
+<p>The pod template's metadata.labels are for creating pods that can be selected by a service for routing.</p>
+<p>(The helpful explanation above was inspired by a <a href="https://www.goglides.dev/bkpandey/matchlabels-labels-and-selectors-in-deployment-5fk1">goglides.dev</a> post).</p>
 
                     </main>
 
