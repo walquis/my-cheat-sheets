@@ -9,3 +9,6 @@
 - [Concourse-CI](./concourse-ci.md)
 - [Vault](./vault.md)
 - [Mac keyboard shortcuts](./mac-keyboard-shortcuts-etc.md)
+# Jupyter Notebooks
+- [Virtual Env setup with VSCode](./jupyter-notebooks/vscode-venv-setup.md)
+- [keyboard shortcuts](./jupyter-notebooks/keyboard-shortcuts.md)

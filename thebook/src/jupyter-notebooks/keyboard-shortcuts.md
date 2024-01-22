@@ -20,6 +20,9 @@ Commands:
 - L - toggle line numbering
 
 While in a cell in command mode:
-- <Enter> - enter edit mode (whether markdown or code)
+- \<Enter> - enter edit mode (whether markdown or code)
 - Undo - Cmd-z
-- Open command palette: Cmd + Shift + P and then search for Jupyter-specific commands
+
+VSCode shortcuts:
+- Cmd-Shift-P - open the VSCode command palette
+
