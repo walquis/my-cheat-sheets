@@ -175,6 +175,8 @@
                     <main>
                         <h1 id="setting-up-a-python-venv-in-vscode-for-your-notebook"><a class="header" href="#setting-up-a-python-venv-in-vscode-for-your-notebook">Setting up a Python venv in VSCode for your notebook</a></h1>
 <p>VSCode looks for a <code>.venv</code> directory next to the notebook.</p>
+<p>In VSCode, open the folder containing your Jupyter notebook(s).  NOTE: Don't just open a notebook without opening the containing folder; VSCode will NOT assume that you mean &quot;use the folder with this notebook&quot;, and will get confused if no folder is open.</p>
+<p>When you open the folder, and then the notebook, VSCode will flash a message &quot;detecting kernels...&quot;.</p>
 <p>To create that virtual environment in VSCode: Type Cmd-Shift-P (for the VSCode command palette), then &quot;create&quot;, and select &quot;creates a <code>.venv</code> virtual environment in the current workspace&quot;.</p>
 <p>Next, you need to tell VSCode to treat that <code>.venv</code> as a Jupyter kernel.  Do this by installing <code>ipykernel</code> (the wrapper around IPython that enables using IPython as a kernel) in that virtual env:</p>
 <pre><code>. .venv/bin/activate
