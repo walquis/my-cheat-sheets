@@ -197,6 +197,10 @@ $ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s
 
 # Or use https://www.epochconverter.com/
 </code></pre>
+<h2 id="add-a-final-newline-to-python-files-in-a-repo"><a class="header" href="#add-a-final-newline-to-python-files-in-a-repo">Add a final newline to Python files in a repo.</a></h2>
+<p>VSCode has a nasty habit of saving text files w/o a final newline.  This snippet will help fix a code base suffering from this malady...</p>
+<pre><code>find tests -name '*.py' | while read f; do tail -n1 $f | read -r _ || echo &gt;&gt; $f; done
+</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
 <h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
 <pre><code>$ brew install --cask google-cloud-sdk            

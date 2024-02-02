@@ -195,6 +195,10 @@ $ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s
 
 # Or use https://www.epochconverter.com/
 </code></pre>
+<h2 id="add-a-final-newline-to-python-files-in-a-repo"><a class="header" href="#add-a-final-newline-to-python-files-in-a-repo">Add a final newline to Python files in a repo.</a></h2>
+<p>VSCode has a nasty habit of saving text files w/o a final newline.  This snippet will help fix a code base suffering from this malady...</p>
+<pre><code>find tests -name '*.py' | while read f; do tail -n1 $f | read -r _ || echo &gt;&gt; $f; done
+</code></pre>
 
                     </main>
 
