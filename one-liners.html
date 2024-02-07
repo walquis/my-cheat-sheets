@@ -199,6 +199,16 @@ $ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s
 <p>VSCode has a nasty habit of saving text files w/o a final newline.  This snippet will help fix a code base suffering from this malady...</p>
 <pre><code>find tests -name '*.py' | while read f; do tail -n1 $f | read -r _ || echo &gt;&gt; $f; done
 </code></pre>
+<h2 id="use-zsh-arrays-to-juggle-filename-components"><a class="header" href="#use-zsh-arrays-to-juggle-filename-components">Use zsh arrays to juggle filename components</a></h2>
+<pre><code># Splits filename by '.' into a zsh array named fn ...
+for i in *.JPG; do fn=(&quot;${(@s/./)i}&quot;); convert $i -resize '600x800&gt;'  ${fn[1]}-resized.JPG;  done
+
+# Can also rename .yaml files to .yml ...
+for i in *.yaml; do fn=(&quot;${(@s/./)i}&quot;); mv $i ${fn[1]}.yml;  done
+
+# Or convert extensions from lower-case to upper-case...
+for i in *.png; do fn=(&quot;${(@s/./)i}&quot;); git mv $i ${fn[1]}.PNG;  done
+</code></pre>
 
                     </main>
 
