@@ -177,9 +177,9 @@
 <pre><code>brew install fly
 </code></pre>
 <h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
-<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or &quot;target&quot;).  <code>~/.flyrc</code> can store multiple sets of creds.</p>
+<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or "target").  <code>~/.flyrc</code> can store multiple sets of creds.</p>
 <p>Since you have to specify target with every fly command, set up an alias...</p>
-<pre><code>alias f=&quot;fly -t bg-hw-deploy-refimpl&quot;
+<pre><code>alias f="fly -t bg-hw-deploy-refimpl"
 </code></pre>
 <p>Authentication is stored in <code>~/.flyrc</code>.</p>
 <pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw

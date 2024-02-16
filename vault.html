@@ -174,7 +174,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="the-vault-cli---reading-key-values"><a class="header" href="#the-vault-cli---reading-key-values">The Vault CLI - reading key-values</a></h1>
-<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault &quot;secret&quot;.</p>
+<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault "secret".</p>
 <h2 id="get-the-vault-cli"><a class="header" href="#get-the-vault-cli">Get the Vault CLI</a></h2>
 <pre><code>sudo apt install vault
 </code></pre>
@@ -187,9 +187,9 @@
 <h2 id="get-a-vault-token"><a class="header" href="#get-a-vault-token">Get a Vault token</a></h2>
 <p>Assuming that ...</p>
 <ol>
-<li>You have Key-Values stored in a secret within a &quot;v2 Key-Value&quot; secrets engine on https://vault.mycompany.com (such as &quot;ansible&quot;), and</li>
+<li>You have Key-Values stored in a secret within a "v2 Key-Value" secrets engine on https://vault.mycompany.com (such as "ansible"), and</li>
 <li>You belong to a group with access to that engine, and</li>
-<li>Your group's policy lets you at least &quot;read&quot; and &quot;list&quot;,
+<li>Your group's policy lets you at least "read" and "list",
 ...then when you obtain authentication token, you'll be able to read those KV's.</li>
 </ol>
 <pre><code>$ export VAULT_ADDR=https://vault.mycompany.com
@@ -198,7 +198,7 @@ $ export VAULT_TOKEN=         # Make sure VAULT_TOKEN is not set, otherwise the 
 $ vault login -method=ldap username=$(id -un)
 Password (will be hidden):
 Success! You are now authenticated. The token information displayed below
-is already stored in the token helper. You do NOT need to run &quot;vault login&quot;
+is already stored in the token helper. You do NOT need to run "vault login"
 again. Future Vault requests will automatically use this token.
 
 Key                    Value
@@ -207,9 +207,9 @@ token                  s.EqpuvurstSkoL8Xtnst0OKkB
 token_accessor         XMueQHm6hVr77sHLubc6Q5Az
 token_duration         1h
 token_renewable        true
-token_policies         [&quot;default&quot;]
+token_policies         ["default"]
 identity_policies      []
-policies               [&quot;default&quot;]
+policies               ["default"]
 token_meta_username    cwalquist
 </code></pre>
 <h2 id="use-the-token-for-vault-key-value-retrieval"><a class="header" href="#use-the-token-for-vault-key-value-retrieval">Use the token for Vault key-value retrieval</a></h2>
@@ -218,14 +218,14 @@ token_meta_username    cwalquist
 <p>(Note the use of the Vault CLI to spit out a curl command).</p>
 <pre><code>$ vault read -output-curl-string concourse/myteam/mydeploy
 
-curl -H &quot;X-Vault-Namespace: unix/&quot; -H &quot;X-Vault-Token: $(vault print token)&quot; -H &quot;X-Vault-Request: true&quot; https://vault.mycompany.com/v1/concourse/myteam/mydeploy
+curl -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" https://vault.mycompany.com/v1/concourse/myteam/mydeploy
 
-# Add a &quot;-s&quot; to suppress extraneous curl output...
-curl -s -H &quot;X-Vault-Namespace: unix/&quot; -H &quot;X-Vault-Token: $(vault print token)&quot; -H &quot;X-Vault-Request: true&quot; \
+# Add a "-s" to suppress extraneous curl output...
+curl -s -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" \
   https://vault.mycompany.com/v1/concourse/myteam/mydeploy \
   | jq .data.k8s_server_url
 
-&quot;https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh&quot;
+"https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh"
 </code></pre>
 <pre><code># Use the Vault CLI to spit out json format directly
 $ vault read -format=json concourse/myteam/mydeploy \
@@ -261,7 +261,7 @@ https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh
 </ul>
 <p>For credential managers that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; foo will be queried under <code>/concourse/(team-name)/(pipeline-name)/foo</code>.</p>
 <p>If you need to get hold of your cluster's CA chain, for purposes of configuring a k8s-resource in Concourse, https://technekey.com/how-to-get-kubernetes-ca-certificate/ has a one-liner ...</p>
-<pre><code>$ kubectl config view --raw -o go-template='{{index ((index (index .clusters 0) &quot;cluster&quot;)) &quot;certificate-authority-data&quot;|base64decode}}'
+<pre><code>$ kubectl config view --raw -o go-template='{{index ((index (index .clusters 0) "cluster")) "certificate-authority-data"|base64decode}}'
 </code></pre>
 
                     </main>

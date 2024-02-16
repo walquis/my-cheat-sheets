@@ -192,7 +192,7 @@ $ gcloud init
 <pre><code>$ gcloud services enable artifactregistry.googleapis.com
 
 # Create the repo...
-$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description=&quot;blue/green helloworld app&quot; --location=us-east1
+$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description="blue/green helloworld app" --location=us-east1
 
 # Use gcloud to add a credential helper to your ~/.docker/config.json...
 $ gcloud auth configure-docker us-east1-docker.pkg.dev

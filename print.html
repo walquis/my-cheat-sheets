@@ -175,7 +175,7 @@
                 <div id="content" class="content">
                     <main>
                         <p><a href="https://walquis.github.io/git-basics-team-project/cheat-sheet.html">Git Cheat Sheet from git basics class</a></p>
-<div style="break-before: page; page-break-before: always;"></div><p>One-liners (or few-liners) I use, but not enough to remember. </p>
+<div style="break-before: page; page-break-before: always;"></div><p>One-liners (or few-liners) I use, but not enough to remember.</p>
 <h2 id="find-a-process-listening-on-a-port"><a class="header" href="#find-a-process-listening-on-a-port">Find a process listening on a port</a></h2>
 <p>On a Mac, usually because I want to kill it. From <a href="https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/">find-the-process-listening-to-port-on-mac-os-x/</a>.</p>
 <pre><code>$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080
@@ -187,12 +187,12 @@ $ date -d @1447428499  # Or on Mac, date -r 1447428499
 Fri Nov 13 09:28:19 CST 2015
 $ date
 Fri Nov 13 09:28:35 CST 2015
-$ date -d &quot;Thu Nov 12 17:30:00 CST 2015&quot;  # On Mac, something else
+$ date -d "Thu Nov 12 17:30:00 CST 2015"  # On Mac, something else
 Thu Nov 12 17:30:00 CST 2015
-$ date -d &quot;Thu Nov 12 17:30:00 CST 2015&quot; +%s
+$ date -d "Thu Nov 12 17:30:00 CST 2015" +%s
 1447371000
 # On Mac...
-$ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s    
+$ date -j -f "%Y-%m-%d %H:%M" "2015-11-12 17:30" +%s    
 1447371052
 
 # Or use https://www.epochconverter.com/
@@ -203,13 +203,13 @@ $ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s
 </code></pre>
 <h2 id="use-zsh-arrays-to-juggle-filename-components"><a class="header" href="#use-zsh-arrays-to-juggle-filename-components">Use zsh arrays to juggle filename components</a></h2>
 <pre><code># Splits filename by '.' into a zsh array named fn ...
-for i in *.JPG; do fn=(&quot;${(@s/./)i}&quot;); convert $i -resize '600x800&gt;'  ${fn[1]}-resized.JPG;  done
+for i in *.JPG; do fn=("${(@s/./)i}"); convert $i -resize '600x800&gt;'  ${fn[1]}-resized.JPG;  done
 
 # Can also rename .yaml files to .yml ...
-for i in *.yaml; do fn=(&quot;${(@s/./)i}&quot;); mv $i ${fn[1]}.yml;  done
+for i in *.yaml; do fn=("${(@s/./)i}"); mv $i ${fn[1]}.yml;  done
 
 # Or convert extensions from lower-case to upper-case...
-for i in *.png; do fn=(&quot;${(@s/./)i}&quot;); git mv $i ${fn[1]}.PNG;  done
+for i in *.png; do fn=("${(@s/./)i}"); git mv $i ${fn[1]}.PNG;  done
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
 <h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
@@ -230,7 +230,7 @@ $ gcloud init
 <pre><code>$ gcloud services enable artifactregistry.googleapis.com
 
 # Create the repo...
-$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description=&quot;blue/green helloworld app&quot; --location=us-east1
+$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description="blue/green helloworld app" --location=us-east1
 
 # Use gcloud to add a credential helper to your ~/.docker/config.json...
 $ gcloud auth configure-docker us-east1-docker.pkg.dev
@@ -309,7 +309,7 @@ d push $docker_tag
 
 $ k config set-context --current --namespace=bg-helloworld-reference-impl-ns
 </code></pre>
-<p>Now I don't have to say &quot;-n bg-helloworld-reference-impl-ns&quot; after every command</p>
+<p>Now I don't have to say "-n bg-helloworld-reference-impl-ns" after every command</p>
 <pre><code># SSH to a running pod in a k8s cluster...
 
 $ k get pods
@@ -343,21 +343,21 @@ $ kubectl config current-context
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="k8s-api-and-kubectl"><a class="header" href="#k8s-api-and-kubectl">k8s API and kubectl</a></h1>
 <p>(This is digressing from cheat-sheet into tutorial territory, I know...)</p>
-<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a><sup class="footnote-reference"><a href="#what-is-rest">1</a></sup>, which is actually many API's organized into purpose-specific <strong>API Groups</strong>.  The list of <code>apiGroups</code> in an RBAC role definition's yaml corresponds to a component (aka &quot;GROUP path segment&quot;) of the REST URL.  For instance, this <code>ClusterRole</code> resource definition specifies rules for apis beginning with <code>/apis/apps</code>, <code>/apis/networking.k8s.io</code>, and <code>/api</code>.</p>
+<p>Kubectl is a command-line wrapper around the <a href="https://kubernetes.io/docs/reference/kubernetes-api/">k8s REST API</a>[^what-is-rest], which is actually many API's organized into purpose-specific <strong>API Groups</strong>.  The list of <code>apiGroups</code> in an RBAC role definition's yaml corresponds to a component (aka "GROUP path segment") of the REST URL.  For instance, this <code>ClusterRole</code> resource definition specifies rules for apis beginning with <code>/apis/apps</code>, <code>/apis/networking.k8s.io</code>, and <code>/api</code>.</p>
 <pre><code>apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  # &quot;namespace&quot; is omitted since ClusterRoles are not namespaced; thus,
-  # entities in various namespaces can be associated (or &quot;bound&quot;) to the app-deployer role.
+  # "namespace" is omitted since ClusterRoles are not namespaced; thus,
+  # entities in various namespaces can be associated (or "bound") to the app-deployer role.
   name: app-deployer
 rules:
-- apiGroups: [&quot;apps&quot;,&quot;networking.k8s.io&quot;,&quot;&quot;]
-  # at the HTTP level, the name of the resource for accessing Secret objects is &quot;secrets&quot;
-  resources: [&quot;pods&quot;, &quot;deployments&quot;, &quot;ingresses&quot;, &quot;secrets&quot;, &quot;services&quot;]
-  # These correspond mostly to HTTP verbs, although k8s implements &quot;create&quot; and &quot;update&quot; with PUT
-  verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;patch&quot;, &quot;delete&quot;, &quot;create&quot;, &quot;update&quot;]
+- apiGroups: ["apps","networking.k8s.io",""]
+  # at the HTTP level, the name of the resource for accessing Secret objects is "secrets"
+  resources: ["pods", "deployments", "ingresses", "secrets", "services"]
+  # These correspond mostly to HTTP verbs, although k8s implements "create" and "update" with PUT
+  verbs: ["get", "watch", "list", "patch", "delete", "create", "update"]
 </code></pre>
-<p>The <code>&quot;&quot;</code> entry represents the Core <code>apiGroup</code>, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it,</p>
+<p>The <code>""</code> entry represents the Core <code>apiGroup</code>, whose REST endpoints have no apiGroup component in their paths.  In the URL, as the <a href="k8s/%22https://kubernetes.io/docs/reference/using-api/api-concepts/%22">k8s api docs</a> put it,</p>
 <blockquote>
 <p>core resources use <code>/api</code> instead of <code>/apis</code> and omit the GROUP path segment.</p>
 </blockquote>
@@ -365,7 +365,7 @@ rules:
 <p>Let's be an HTTP client (like kubectl), and make HTTP REST calls to k8s with <code>curl</code>.</p>
 <p><a href="https://iximiuz.com/en/posts/kubernetes-api-call-simple-http-client/">This post</a> has a pretty good walk-through.</p>
 <p>How about getting info for a specific pod, as described in the k8s pod reference under <a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#Operations">Operations</a>?</p>
-<p>Assuming you have some pods running, first &quot;cheat&quot; and use kubectl to get a pod name, with <code>kubectl get pods</code>:</p>
+<p>Assuming you have some pods running, first "cheat" and use kubectl to get a pod name, with <code>kubectl get pods</code>:</p>
 <pre><code>kubectl get pods
 NAME                                   READY   STATUS    RESTARTS   AGE
 blue-helloworld-wl-84c98bfbdf-29hh7    1/1     Running   0          25h
@@ -383,7 +383,7 @@ green-helloworld-wl-7fd747c8cb-h5cnx   1/1     Running   0          26h
 <p>You'll also need an authorization token associated with your user or with a service account having sufficient permissions.</p>
 <p>Postman is a great tool with which to poke at APIs.  I used it to generate this curl command (and appended <code>&gt; pod.json</code>):</p>
 <pre><code>token=aLongAuthorizationTokenStringAssociatedWithYourServiceAccount
-curl -s --header &quot;Authorization: Bearer $token&quot; --cacert /tmp/ap-dev-use2-1.crt https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7 \
+curl -s --header "Authorization: Bearer $token" --cacert /tmp/ap-dev-use2-1.crt https://047C9C71F223E20B1299471649359259.sk1.us-east-2.eks.amazonaws.com/api/v1/namespaces/appr-bg-hw-deploy-refimpl-ns/pods/blue-helloworld-wl-84c98bfbdf-29hh7 \
 &gt; pod.json
 </code></pre>
 <p>Notice that I also passed a Certificate Authority (CA) cert into curl, so that it wouldn't fail with an SSL error.  This cert file came from the <code>certificate-authority-data</code> field in <code>~/.kube/config</code> for the cluster; because it's base64-encoded, it required decoding first:</p>
@@ -393,12 +393,12 @@ echo $encoded_token | base64 -d &gt; /tmp/ap-dev-use2-1.crt
 <p>(If you want to skip the SSL CA cert part, you can bypass <code>--cacert</code> and use the <code>-k</code> option instead).</p>
 <p>You'll get back some JSON about the pod, saved into <code>pod.json</code>.  If you like, you can parse and filter it with <a href="https://jqlang.github.io/jq/tutorial">jq</a>...</p>
 <pre><code>cat pod.json | jq '{state: .status.phase}'
-&quot;Running&quot;
+"Running"
 </code></pre>
-<p><strong>Exercise for the reader</strong>: Go back to where we used kubectl to &quot;cheat&quot; and get a list of pods.  Instead of using kubectl, call the API directly with <code>curl</code> to get this list.</p>
-<p>As a bonus, filter the JSON response with jq to print just the pod names.  Hover <a href="k8s/doesnotexist.jpg," title="cat pods.json| jq '.items[].metadata.name'">here</a> for a jq solution that prints pod names. Or <a href="k8s/doesnotexist.jpg," title="cat pods.json| jq '.items[] | {name: .metadata.name, state: .status.phase}'">here</a> for a jq solution that prints more attributes of each pod.</p>
+<p><strong>Exercise for the reader</strong>: Go back to where we used kubectl to "cheat" and get a list of pods.  Instead of using kubectl, call the API directly with <code>curl</code> to get this list.</p>
+<p>As a bonus, filter the JSON response with jq to print just the pod names.  Hover <a href="k8s/doesnotexist.jpg," title="cat pods.json| jq &#39;.items[].metadata.name&#39;">here</a> for a jq solution that prints pod names. Or <a href="k8s/doesnotexist.jpg," title="cat pods.json| jq &#39;.items[] | {name: .metadata.name, state: .status.phase}&#39;">here</a> for a jq solution that prints more attributes of each pod.</p>
 <hr />
-<p><sup class="footnote-reference"><a href="#what-is-rest">1</a></sup> - What is REST?  See Amazon AWS's <a href="https://aws.amazon.com/what-is/restful-api/">What Is A RESTful API?</a> for an overview.</p>
+<p>[^what-is-rest] - What is REST?  See Amazon AWS's <a href="https://aws.amazon.com/what-is/restful-api/">What Is A RESTful API?</a> for an overview.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="labels-selectors-annotations"><a class="header" href="#labels-selectors-annotations">Labels, Selectors, Annotations</a></h1>
 <h2 id="labels"><a class="header" href="#labels">Labels</a></h2>
 <h3 id="needed-for-gluing-k8s-resources-together"><a class="header" href="#needed-for-gluing-k8s-resources-together">Needed for gluing k8s resources together</a></h3>
@@ -493,9 +493,9 @@ spec:
 <pre><code>brew install fly
 </code></pre>
 <h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
-<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or &quot;target&quot;).  <code>~/.flyrc</code> can store multiple sets of creds.</p>
+<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or "target").  <code>~/.flyrc</code> can store multiple sets of creds.</p>
 <p>Since you have to specify target with every fly command, set up an alias...</p>
-<pre><code>alias f=&quot;fly -t bg-hw-deploy-refimpl&quot;
+<pre><code>alias f="fly -t bg-hw-deploy-refimpl"
 </code></pre>
 <p>Authentication is stored in <code>~/.flyrc</code>.</p>
 <pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw
@@ -517,7 +517,7 @@ f workers
 f containers
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="the-vault-cli---reading-key-values"><a class="header" href="#the-vault-cli---reading-key-values">The Vault CLI - reading key-values</a></h1>
-<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault &quot;secret&quot;.</p>
+<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault "secret".</p>
 <h2 id="get-the-vault-cli"><a class="header" href="#get-the-vault-cli">Get the Vault CLI</a></h2>
 <pre><code>sudo apt install vault
 </code></pre>
@@ -530,9 +530,9 @@ f containers
 <h2 id="get-a-vault-token"><a class="header" href="#get-a-vault-token">Get a Vault token</a></h2>
 <p>Assuming that ...</p>
 <ol>
-<li>You have Key-Values stored in a secret within a &quot;v2 Key-Value&quot; secrets engine on https://vault.mycompany.com (such as &quot;ansible&quot;), and</li>
+<li>You have Key-Values stored in a secret within a "v2 Key-Value" secrets engine on https://vault.mycompany.com (such as "ansible"), and</li>
 <li>You belong to a group with access to that engine, and</li>
-<li>Your group's policy lets you at least &quot;read&quot; and &quot;list&quot;,
+<li>Your group's policy lets you at least "read" and "list",
 ...then when you obtain authentication token, you'll be able to read those KV's.</li>
 </ol>
 <pre><code>$ export VAULT_ADDR=https://vault.mycompany.com
@@ -541,7 +541,7 @@ $ export VAULT_TOKEN=         # Make sure VAULT_TOKEN is not set, otherwise the 
 $ vault login -method=ldap username=$(id -un)
 Password (will be hidden):
 Success! You are now authenticated. The token information displayed below
-is already stored in the token helper. You do NOT need to run &quot;vault login&quot;
+is already stored in the token helper. You do NOT need to run "vault login"
 again. Future Vault requests will automatically use this token.
 
 Key                    Value
@@ -550,9 +550,9 @@ token                  s.EqpuvurstSkoL8Xtnst0OKkB
 token_accessor         XMueQHm6hVr77sHLubc6Q5Az
 token_duration         1h
 token_renewable        true
-token_policies         [&quot;default&quot;]
+token_policies         ["default"]
 identity_policies      []
-policies               [&quot;default&quot;]
+policies               ["default"]
 token_meta_username    cwalquist
 </code></pre>
 <h2 id="use-the-token-for-vault-key-value-retrieval"><a class="header" href="#use-the-token-for-vault-key-value-retrieval">Use the token for Vault key-value retrieval</a></h2>
@@ -561,14 +561,14 @@ token_meta_username    cwalquist
 <p>(Note the use of the Vault CLI to spit out a curl command).</p>
 <pre><code>$ vault read -output-curl-string concourse/myteam/mydeploy
 
-curl -H &quot;X-Vault-Namespace: unix/&quot; -H &quot;X-Vault-Token: $(vault print token)&quot; -H &quot;X-Vault-Request: true&quot; https://vault.mycompany.com/v1/concourse/myteam/mydeploy
+curl -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" https://vault.mycompany.com/v1/concourse/myteam/mydeploy
 
-# Add a &quot;-s&quot; to suppress extraneous curl output...
-curl -s -H &quot;X-Vault-Namespace: unix/&quot; -H &quot;X-Vault-Token: $(vault print token)&quot; -H &quot;X-Vault-Request: true&quot; \
+# Add a "-s" to suppress extraneous curl output...
+curl -s -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" \
   https://vault.mycompany.com/v1/concourse/myteam/mydeploy \
   | jq .data.k8s_server_url
 
-&quot;https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh&quot;
+"https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh"
 </code></pre>
 <pre><code># Use the Vault CLI to spit out json format directly
 $ vault read -format=json concourse/myteam/mydeploy \
@@ -604,24 +604,24 @@ https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh
 </ul>
 <p>For credential managers that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; foo will be queried under <code>/concourse/(team-name)/(pipeline-name)/foo</code>.</p>
 <p>If you need to get hold of your cluster's CA chain, for purposes of configuring a k8s-resource in Concourse, https://technekey.com/how-to-get-kubernetes-ca-certificate/ has a one-liner ...</p>
-<pre><code>$ kubectl config view --raw -o go-template='{{index ((index (index .clusters 0) &quot;cluster&quot;)) &quot;certificate-authority-data&quot;|base64decode}}'
+<pre><code>$ kubectl config view --raw -o go-template='{{index ((index (index .clusters 0) "cluster")) "certificate-authority-data"|base64decode}}'
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mac-os-x-keyboard-shortcuts-and-other-tipstricks"><a class="header" href="#mac-os-x-keyboard-shortcuts-and-other-tipstricks">Mac OS X keyboard shortcuts, and other tips/tricks</a></h1>
 <p>(Install and start <a href="https://github.com/keycastr/keycastr">KeyCastr</a> if demo'ing keyboard shortcuts; shows keystrokes onscreen.)</p>
 <h2 id="first-things"><a class="header" href="#first-things">First things...</a></h2>
 <ul>
-<li>⌘-SPC (spacebar), &quot;sys&quot;, RETURN, and then search in System Settings for &quot;customize modifier&quot;</li>
+<li>⌘-SPC (spacebar), "sys", RETURN, and then search in System Settings for "customize modifier"</li>
 <li>Map Caps Lock to ESC.  This will come in handy when you learn vim (you're going to learn Vim, of course ... ? 😃) Also, ESC cancels modal dialogs of various kinds, such as ⌘-SPC (Spotlight search).</li>
 </ul>
-<h3 id="in-system-settings-search-mission-choose-hot-corner-shortcuts"><a class="header" href="#in-system-settings-search-mission-choose-hot-corner-shortcuts">In System Settings, search &quot;mission&quot;, choose &quot;Hot Corner Shortcuts&quot;</a></h3>
+<h3 id="in-system-settings-search-mission-choose-hot-corner-shortcuts"><a class="header" href="#in-system-settings-search-mission-choose-hot-corner-shortcuts">In System Settings, search "mission", choose "Hot Corner Shortcuts"</a></h3>
 <p><a href="https://support.apple.com/en-us/HT204100">Mission Control</a> - bird's-eye view of windows, spaces, and apps
 I set my hot corners to something like this...
 <img src="./img/hot-corners.png" alt="|200" /></p>
 <p>When you touch that screen corner with your mouse, the selected action happens.</p>
-<p>Other &quot;Mission Control&quot; settings:</p>
+<p>Other "Mission Control" settings:</p>
 <ul>
-<li>OFF - &quot;When switching to an app, switch to a space w/open windows&quot;</li>
-<li>OFF - &quot;Displays have separate Spaces&quot;</li>
+<li>OFF - "When switching to an app, switch to a space w/open windows"</li>
+<li>OFF - "Displays have separate Spaces"</li>
 </ul>
 <h2 id="general-keyboard-shortcuts"><a class="header" href="#general-keyboard-shortcuts">General Keyboard Shortcuts</a></h2>
 <ul>
@@ -630,8 +630,8 @@ I set my hot corners to something like this...
 <ul>
 <li>What to search for?
 <ul>
-<li>&quot;ter&quot; - Terminal.app - Sometimes just &quot;t&quot; is enough; Spotlight remembers frequency.</li>
-<li>&quot;sys&quot; - System Settings.app</li>
+<li>"ter" - Terminal.app - Sometimes just "t" is enough; Spotlight remembers frequency.</li>
+<li>"sys" - System Settings.app</li>
 </ul>
 </li>
 </ul>
@@ -692,20 +692,20 @@ I set my hot corners to something like this...
 </ul>
 <h3 id="mission-control---birds-eye-view-of-windows-spaces-and-apps"><a class="header" href="#mission-control---birds-eye-view-of-windows-spaces-and-apps"><a href="https://support.apple.com/en-us/HT204100">Mission Control</a> - bird's-eye view of windows, spaces, and apps</a></h3>
 <ul>
-<li>When in Mission Control, add a workspace with &quot;+&quot; (top right corner)</li>
+<li>When in Mission Control, add a workspace with "+" (top right corner)</li>
 <li>Ctrl-&lt;up-arrow&gt;</li>
 <li>Ctrl-&lt;right-arrow&gt;, Ctrl-&lt;left-arrow&gt; - switch workspaces</li>
 <li>Ctrl-&lt;down-arrow&gt; - app focus</li>
 </ul>
 <p>While in Mission Control, you can drag windows around to various desktops.</p>
-<p>To delete a desktop, hover over its thumbnail until a white &quot;X&quot; appears, and click the &quot;X&quot;.  (No windows in that desktop will be deleted; they will simply move to the previous desktop).</p>
+<p>To delete a desktop, hover over its thumbnail until a white "X" appears, and click the "X".  (No windows in that desktop will be deleted; they will simply move to the previous desktop).</p>
 <p>Hit ESC to exit Mission Control.</p>
 <h2 id="gestures"><a class="header" href="#gestures">Gestures</a></h2>
-<p>In System Settings, search &quot;gestures&quot;, choose Trackpad gestures.</p>
+<p>In System Settings, search "gestures", choose Trackpad gestures.</p>
 <p>Trackpad with drag lock:</p>
 <ul>
-<li>&quot;use trackpad for dragging&quot;</li>
-<li>&quot;with Drag Lock&quot;</li>
+<li>"use trackpad for dragging"</li>
+<li>"with Drag Lock"</li>
 </ul>
 <h3 id="terminalapp-zsh"><a class="header" href="#terminalapp-zsh">Terminal.app (zsh)</a></h3>
 <ul>
@@ -721,8 +721,8 @@ I set my hot corners to something like this...
 </ul>
 <h3 id="explore"><a class="header" href="#explore">Explore</a></h3>
 <ul>
-<li>Trackpad has &quot;light&quot; click and &quot;firm&quot; click (aka &quot;force click&quot;).</li>
-<li>Function keys can be set to default to F1-12, or to the &quot;other&quot; mode (FN-&lt;fn-key&gt; accesses whatever the &quot;other&quot; mode is.  ⌘-SPC, &quot;function keys&quot;.</li>
+<li>Trackpad has "light" click and "firm" click (aka "force click").</li>
+<li>Function keys can be set to default to F1-12, or to the "other" mode (FN-&lt;fn-key&gt; accesses whatever the "other" mode is.  ⌘-SPC, "function keys".</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="setting-up-a-python-venv-in-vscode-for-your-notebook"><a class="header" href="#setting-up-a-python-venv-in-vscode-for-your-notebook">Setting up a Python venv in VSCode for your notebook</a></h1>
 <p>If a <code>.venv</code> directory exists next to a Jupyter notebook, VSCode will notice it.  However, that's not quite enough; VSCode also needs to recognize that virtual environment as a Jupyter kernel.  This is done by installing <code>ipykernel</code> (the wrapper around IPython that enables using IPython as a kernel) in that virtual env.</p>
@@ -731,9 +731,9 @@ I set my hot corners to something like this...
 . .venv/bin/activate
 pip install ipykernel
 </code></pre>
-<p>In VSCode, open the folder containing your Jupyter notebook(s).  NOTE: Don't just open a notebook without opening the containing folder; VSCode will NOT assume that you mean &quot;use the folder with this notebook&quot;, and will get confused if no folder is open.</p>
+<p>In VSCode, open the folder containing your Jupyter notebook(s).  NOTE: Don't just open a notebook without opening the containing folder; VSCode will NOT assume that you mean "use the folder with this notebook", and will get confused if no folder is open.</p>
 <p>When you open the folder, and then the notebook in VSCode, VSCode will flash a message <code>detecting kernels...</code>.  This is a good sign.</p>
-<p>In VSCode, Cmd-Shift-P, and search for &quot;kernel&quot;.  Choose &quot;Kernel: Select Notebook Kernel&quot;. Now that <code>ipykernel</code> is installed, the <code>.venv</code> containing it will show up as a kernel;  choose that.</p>
+<p>In VSCode, Cmd-Shift-P, and search for "kernel".  Choose "Kernel: Select Notebook Kernel". Now that <code>ipykernel</code> is installed, the <code>.venv</code> containing it will show up as a kernel;  choose that.</p>
 <p>At this point, whatever you <code>pip install</code> into that activated <code>.venv</code> environment should be visible for import with code in your Jupyter notebook. E.g....</p>
 <pre><code>import pandas as pd
 </code></pre>
@@ -778,6 +778,10 @@ pip install ipykernel
 <p>VSCode shortcuts:</p>
 <ul>
 <li>Cmd-Shift-P - open the VSCode command palette</li>
+</ul>
+<p>Other References:</p>
+<ul>
+<li><a href="https://www.dataschool.io/jupyter-notebook-keyboard-shortcuts/">Dataschool.io - Jupyter Keyboard Shortcuts</a></li>
 </ul>
 
                     </main>

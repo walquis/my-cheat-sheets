@@ -173,7 +173,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>One-liners (or few-liners) I use, but not enough to remember. </p>
+                        <p>One-liners (or few-liners) I use, but not enough to remember.</p>
 <h2 id="find-a-process-listening-on-a-port"><a class="header" href="#find-a-process-listening-on-a-port">Find a process listening on a port</a></h2>
 <p>On a Mac, usually because I want to kill it. From <a href="https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/">find-the-process-listening-to-port-on-mac-os-x/</a>.</p>
 <pre><code>$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080
@@ -185,12 +185,12 @@ $ date -d @1447428499  # Or on Mac, date -r 1447428499
 Fri Nov 13 09:28:19 CST 2015
 $ date
 Fri Nov 13 09:28:35 CST 2015
-$ date -d &quot;Thu Nov 12 17:30:00 CST 2015&quot;  # On Mac, something else
+$ date -d "Thu Nov 12 17:30:00 CST 2015"  # On Mac, something else
 Thu Nov 12 17:30:00 CST 2015
-$ date -d &quot;Thu Nov 12 17:30:00 CST 2015&quot; +%s
+$ date -d "Thu Nov 12 17:30:00 CST 2015" +%s
 1447371000
 # On Mac...
-$ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s    
+$ date -j -f "%Y-%m-%d %H:%M" "2015-11-12 17:30" +%s    
 1447371052
 
 # Or use https://www.epochconverter.com/
@@ -201,13 +201,13 @@ $ date -j -f &quot;%Y-%m-%d %H:%M&quot; &quot;2015-11-12 17:30&quot; +%s
 </code></pre>
 <h2 id="use-zsh-arrays-to-juggle-filename-components"><a class="header" href="#use-zsh-arrays-to-juggle-filename-components">Use zsh arrays to juggle filename components</a></h2>
 <pre><code># Splits filename by '.' into a zsh array named fn ...
-for i in *.JPG; do fn=(&quot;${(@s/./)i}&quot;); convert $i -resize '600x800&gt;'  ${fn[1]}-resized.JPG;  done
+for i in *.JPG; do fn=("${(@s/./)i}"); convert $i -resize '600x800&gt;'  ${fn[1]}-resized.JPG;  done
 
 # Can also rename .yaml files to .yml ...
-for i in *.yaml; do fn=(&quot;${(@s/./)i}&quot;); mv $i ${fn[1]}.yml;  done
+for i in *.yaml; do fn=("${(@s/./)i}"); mv $i ${fn[1]}.yml;  done
 
 # Or convert extensions from lower-case to upper-case...
-for i in *.png; do fn=(&quot;${(@s/./)i}&quot;); git mv $i ${fn[1]}.PNG;  done
+for i in *.png; do fn=("${(@s/./)i}"); git mv $i ${fn[1]}.PNG;  done
 </code></pre>
 
                     </main>
