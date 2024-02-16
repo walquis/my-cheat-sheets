@@ -26,3 +26,5 @@ While in a cell in command mode:
 VSCode shortcuts:
 - Cmd-Shift-P - open the VSCode command palette
 
+Other References:
+- [Dataschool.io - Jupyter Keyboard Shortcuts](https://www.dataschool.io/jupyter-notebook-keyboard-shortcuts/)
