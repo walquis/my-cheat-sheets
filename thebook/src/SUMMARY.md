@@ -6,6 +6,7 @@
 - [Kubernetes](./k8s.md)
   - [kubectl and API](k8s/kubectl-and-api.md)
   - [Labels, Selectors, Annotations](k8s/labels-selectors-annotations.md)
+  - [Ingresses and Ingress Controllers](k8s/ingresses-and-controllers.md)
 - [Concourse-CI](./concourse-ci.md)
 - [Vault](./vault.md)
 - [Mac keyboard shortcuts](./mac-keyboard-shortcuts-etc.md)
