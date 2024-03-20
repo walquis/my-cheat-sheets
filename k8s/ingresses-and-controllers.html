@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>docker CLI - Cheat Sheets</title>
+        <title>Ingresses and Ingress Controllers - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -12,21 +12,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="favicon.svg">
-        <link rel="shortcut icon" href="favicon.png">
-        <link rel="stylesheet" href="css/variables.css">
-        <link rel="stylesheet" href="css/general.css">
-        <link rel="stylesheet" href="css/chrome.css">
-        <link rel="stylesheet" href="css/print.css" media="print">
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="fonts/fonts.css">
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
@@ -35,7 +35,7 @@
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "";
+            var path_to_root = "../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "rust";
         </script>
 
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html" class="active"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">5.3.</strong> Ingresses and Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded affix "><li class="part-title">Jupyter Notebooks</li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">9.</strong> Virtual Env setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">10.</strong> keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="../one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="../gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="../docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="../k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="../k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="../k8s/ingresses-and-controllers.html" class="active"><strong aria-hidden="true">5.3.</strong> Ingresses and Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="../concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="../vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="../mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded affix "><li class="part-title">Jupyter Notebooks</li><li class="chapter-item expanded "><a href="../jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">9.</strong> Virtual Env setup with VSCode</a></li><li class="chapter-item expanded "><a href="../jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">10.</strong> keyboard shortcuts</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -144,7 +144,7 @@
                     <h1 class="menu-title">Cheat Sheets</h1>
 
                     <div class="right-buttons">
-                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
@@ -173,54 +173,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
-<pre><code>alias d=docker  # Save typing
-
-d inspect the-image-name-or-ID | jq '.[].Config.Cmd'
-d image ls
-d ps
-</code></pre>
-<p>Managing storage:</p>
-<pre><code>d history &lt;image&gt;
-d system df
-
-d image prune # clears images w/o tags (dangling images)
-d builder prune # clears image build cache
-
-d manifest inspect &lt;image&gt;  # on a remote registry only--not local
-d inspect &lt;container&gt; | jq '.[].Config'
-</code></pre>
-<p>Other stuff:</p>
-<pre><code>d commit &lt;container&gt; &lt;new-image-name&gt;  # Snapshot a running container to an image
-
-d volume create demo1 # Persistent volumes
-</code></pre>
-<p>Building and running; SSH'ing into a running container</p>
-<pre><code>$ d build --progress=plain -t tt .
-$ d run -p 3000:3000 -it tt  # run the container
-$ d run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
-$ d exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
-</code></pre>
-<p>Build and tag an image at the same time, and publish to Artifactory, with a git sha as an image tag...</p>
-<pre><code>image_tag=`git rev-parse --short HEAD`
-docker_tag=&lt;company-artifactory-url&gt;/apprenticeship-docker-local-default/bg-hw-deploy-refimpl:$image_tag
-d build -t $docker_tag .
-d push $docker_tag
-</code></pre>
-<p>The following command helped me debug an <code>exec format error</code> issue for a pod trying to start a container from my image; it showed that my <code>helloworld</code> image was an <code>arm64</code> image.</p>
-<pre><code>d inspect helloworld | grep -i arch
-</code></pre>
-<p>I needed to tell Docker on my M2 mac to build for the linudx/amd64 platform, which I did using the <code>--platform=linux/amd64</code> option to the FROM directive in my Dockerfile.</p>
+                        <h1 id="ingresses-and-ingress-controllers"><a class="header" href="#ingresses-and-ingress-controllers">Ingresses and Ingress Controllers</a></h1>
+<p>An ingress is essentially a collection of rules sent to a controller that is listening for them.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="gcloud-cli.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../k8s/labels-selectors-annotations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="k8s.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../concourse-ci.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -230,11 +194,11 @@ d push $docker_tag
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="gcloud-cli.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../k8s/labels-selectors-annotations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="k8s.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../concourse-ci.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -249,13 +213,13 @@ d push $docker_tag
         </script>
 
 
-        <script src="elasticlunr.min.js"></script>
-        <script src="mark.min.js"></script>
-        <script src="searcher.js"></script>
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
 
-        <script src="clipboard.min.js"></script>
-        <script src="highlight.js"></script>
-        <script src="book.js"></script>
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
 
         <!-- Custom JS scripts -->
 
