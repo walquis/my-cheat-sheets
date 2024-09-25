@@ -1,4 +1,4 @@
-One-liners (or few-liners) I use, but not enough to remember. 
+One-liners (or few-liners) I use, but not often enough to memorize. 
 
 ## Find a process listening on a port
 On a Mac, usually because I want to kill it. From [find-the-process-listening-to-port-on-mac-os-x/](https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/).
