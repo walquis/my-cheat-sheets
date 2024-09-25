@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Concourse-CI - Cheat Sheets</title>
+        <title>archived - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">5.3.</strong> Ingresses and Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html" class="active"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded affix "><li class="part-title">Jupyter Notebooks</li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">9.</strong> Virtual Env setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">10.</strong> keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="flutter-cheat-sheet.html"><strong aria-hidden="true">1.</strong> flutter cheat sheet</a></li><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">2.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">3.</strong> *nix One-Liners</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">4.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">4.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">4.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">4.3.</strong> Ingresses & Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">5.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">6.</strong> Jupyter - venv setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">7.</strong> Jupyter - keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">8.</strong> Vault</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">9.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="archived.html" class="active"><strong aria-hidden="true">10.</strong> archived</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="archived/concourse-ci.html"><strong aria-hidden="true">10.1.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="archived/gcloud-cli.html"><strong aria-hidden="true">10.2.</strong> gcloud - Google Cloud CLI</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,43 +173,17 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
-<pre><code>brew install fly
-</code></pre>
-<h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
-<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or "target").  <code>~/.flyrc</code> can store multiple sets of creds.</p>
-<p>Since you have to specify target with every fly command, set up an alias...</p>
-<pre><code>alias f="fly -t bg-hw-deploy-refimpl"
-</code></pre>
-<p>Authentication is stored in <code>~/.flyrc</code>.</p>
-<pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw
-f sync   # Update fly CLI version to match Concourse server.
-</code></pre>
-<h2 id="creating-and-activating-a-pipeline-in-concourse"><a class="header" href="#creating-and-activating-a-pipeline-in-concourse">Creating and activating a pipeline in Concourse</a></h2>
-<pre><code>cd concourse
-f set-pipeline -c pipeline.yml -p bg-hw-deploy-refimpl
-f unpause-pipeline -p bg-hw-deploy-refimpl
-</code></pre>
-<h2 id="some-other-things-you-can-do-with-fly"><a class="header" href="#some-other-things-you-can-do-with-fly">Some other things you can do with fly</a></h2>
-<pre><code>f targets
-f status
-f userinfo
-f teams
-f logout
-f sync
-f workers
-f containers
-</code></pre>
+                        <h1 id="archived"><a class="header" href="#archived">archived</a></h1>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="k8s/ingresses-and-controllers.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="docker-cli.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="vault.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="archived/concourse-ci.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -219,11 +193,11 @@ f containers
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="k8s/ingresses-and-controllers.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="docker-cli.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="vault.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="archived/concourse-ci.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

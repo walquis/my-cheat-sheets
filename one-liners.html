@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>One-Liners - Cheat Sheets</title>
+        <title>*nix One-Liners - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html" class="active"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">5.3.</strong> Ingresses and Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded affix "><li class="part-title">Jupyter Notebooks</li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">9.</strong> Virtual Env setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">10.</strong> keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="flutter-cheat-sheet.html"><strong aria-hidden="true">1.</strong> flutter cheat sheet</a></li><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">2.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html" class="active"><strong aria-hidden="true">3.</strong> *nix One-Liners</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">4.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">4.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">4.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">4.3.</strong> Ingresses & Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">5.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">6.</strong> Jupyter - venv setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">7.</strong> Jupyter - keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">8.</strong> Vault</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">9.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="archived.html"><strong aria-hidden="true">10.</strong> archived</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="archived/concourse-ci.html"><strong aria-hidden="true">10.1.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="archived/gcloud-cli.html"><strong aria-hidden="true">10.2.</strong> gcloud - Google Cloud CLI</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,7 +173,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p>One-liners (or few-liners) I use, but not enough to remember.</p>
+                        <p>One-liners (or few-liners) I use, but not often enough to memorize.</p>
 <h2 id="find-a-process-listening-on-a-port"><a class="header" href="#find-a-process-listening-on-a-port">Find a process listening on a port</a></h2>
 <p>On a Mac, usually because I want to kill it. From <a href="https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/">find-the-process-listening-to-port-on-mac-os-x/</a>.</p>
 <pre><code>$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080
@@ -218,7 +218,7 @@ for i in *.png; do fn=("${(@s/./)i}"); git mv $i ${fn[1]}.PNG;  done
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="gcloud-cli.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="k8s.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -232,7 +232,7 @@ for i in *.png; do fn=("${(@s/./)i}"); git mv $i ${fn[1]}.PNG;  done
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="gcloud-cli.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="k8s.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

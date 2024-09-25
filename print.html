@@ -89,7 +89,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">1.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">2.</strong> One-Liners</a></li><li class="chapter-item expanded "><a href="gcloud-cli.html"><strong aria-hidden="true">3.</strong> gcloud - Google Cloud CLI</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">4.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">5.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">5.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">5.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">5.3.</strong> Ingresses and Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="concourse-ci.html"><strong aria-hidden="true">6.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">7.</strong> Vault</a></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">8.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded affix "><li class="part-title">Jupyter Notebooks</li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">9.</strong> Virtual Env setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">10.</strong> keyboard shortcuts</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="flutter-cheat-sheet.html"><strong aria-hidden="true">1.</strong> flutter cheat sheet</a></li><li class="chapter-item expanded "><a href="git-cheat-sheet.html"><strong aria-hidden="true">2.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="one-liners.html"><strong aria-hidden="true">3.</strong> *nix One-Liners</a></li><li class="chapter-item expanded "><a href="k8s.html"><strong aria-hidden="true">4.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="k8s/kubectl-and-api.html"><strong aria-hidden="true">4.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="k8s/labels-selectors-annotations.html"><strong aria-hidden="true">4.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="k8s/ingresses-and-controllers.html"><strong aria-hidden="true">4.3.</strong> Ingresses & Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">5.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">6.</strong> Jupyter - venv setup with VSCode</a></li><li class="chapter-item expanded "><a href="jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">7.</strong> Jupyter - keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="vault.html"><strong aria-hidden="true">8.</strong> Vault</a></li><li class="chapter-item expanded "><a href="docker-cli.html"><strong aria-hidden="true">9.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="archived.html"><strong aria-hidden="true">10.</strong> archived</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="archived/concourse-ci.html"><strong aria-hidden="true">10.1.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="archived/gcloud-cli.html"><strong aria-hidden="true">10.2.</strong> gcloud - Google Cloud CLI</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -174,8 +174,22 @@
 
                 <div id="content" class="content">
                     <main>
-                        <p><a href="https://walquis.github.io/git-basics-team-project/cheat-sheet.html">Git Cheat Sheet from git basics class</a></p>
-<div style="break-before: page; page-break-before: always;"></div><p>One-liners (or few-liners) I use, but not enough to remember.</p>
+                        <pre><code>alias f=flutter
+
+# If you don't specify platform, you'll get a bunch of platforms!
+f create --platform web my-flutter-project 
+
+f pub get  # Get the current package's dependencies
+
+# Add the Provider package to pubspec.yaml
+f pub add provider
+
+f upgrade # Upgrade Flutter version
+
+f doctor # Sanity-check Flutter environment
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><p><a href="https://walquis.github.io/git-basics-team-project/cheat-sheet.html">Git Cheat Sheet from git basics class</a></p>
+<div style="break-before: page; page-break-before: always;"></div><p>One-liners (or few-liners) I use, but not often enough to memorize.</p>
 <h2 id="find-a-process-listening-on-a-port"><a class="header" href="#find-a-process-listening-on-a-port">Find a process listening on a port</a></h2>
 <p>On a Mac, usually because I want to kill it. From <a href="https://www.btaz.com/mac-os-x/find-the-process-listening-to-port-on-mac-os-x/">find-the-process-listening-to-port-on-mac-os-x/</a>.</p>
 <pre><code>$ lsof -nP -iTCP -sTCP:LISTEN | grep 8080
@@ -211,97 +225,6 @@ for i in *.yaml; do fn=("${(@s/./)i}"); mv $i ${fn[1]}.yml;  done
 # Or convert extensions from lower-case to upper-case...
 for i in *.png; do fn=("${(@s/./)i}"); git mv $i ${fn[1]}.PNG;  done
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
-<h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
-<pre><code>$ brew install --cask google-cloud-sdk            
-$ gcloud components install gke-gcloud-auth-plugin
-$ gcloud init
-</code></pre>
-<h3 id="create-a-cluster"><a class="header" href="#create-a-cluster">Create a cluster</a></h3>
-<pre><code>$ gcloud container clusters create my-cluster
-</code></pre>
-<p>Update ~/.kube/config to point kubectl at a specific cluster in GKE.</p>
-<pre><code>$ gcloud container clusters get-credentials my-cluster
-</code></pre>
-<p>Example of building an image tagged for pushing to my Google container registry repo</p>
-<pre><code>$ docker build -t us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image:1.2.10 .
-</code></pre>
-<h3 id="use-gcloud-to-set-up-google-container-registry-repo-for-docker-images"><a class="header" href="#use-gcloud-to-set-up-google-container-registry-repo-for-docker-images">Use gcloud to set up Google container registry repo for Docker images</a></h3>
-<pre><code>$ gcloud services enable artifactregistry.googleapis.com
-
-# Create the repo...
-$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description="blue/green helloworld app" --location=us-east1
-
-# Use gcloud to add a credential helper to your ~/.docker/config.json...
-$ gcloud auth configure-docker us-east1-docker.pkg.dev
-
-# Now you can 'docker push' the tagged image...
-$ docker push us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image
-
-</code></pre>
-<p>Set up some gcloud defaults to make subsequent commands easier...</p>
-<pre><code>$ gcloud config set artifacts/location us-east1 
-$ gcloud config set artifacts/repository bg-hw-deploy-refimpl
-
-# These were already set during 'gcloud init' ...
-$ gcloud config get compute/region
-us-east1
-$ gcloud config get compute/zone  
-us-east1-b
-</code></pre>
-<p>Stop the cluster nodes (e.g., to minimize ongoing charges)</p>
-<pre><code>gcloud container clusters resize my-cluster --num-nodes=0
-</code></pre>
-<p>Delete the cluster</p>
-<pre><code>gcloud container clusters delete my-cluster
-</code></pre>
-<p>Look at the pushed image...</p>
-<pre><code>$ gcloud artifacts docker images list
-
-</code></pre>
-<p>kubectl looking-around commands...</p>
-<pre><code>$ kubectl get pods
-$ kubectl get namespaces
-$ kubectl config current-context
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
-<pre><code>alias d=docker  # Save typing
-
-d inspect the-image-name-or-ID | jq '.[].Config.Cmd'
-d image ls
-d ps
-</code></pre>
-<p>Managing storage:</p>
-<pre><code>d history &lt;image&gt;
-d system df
-
-d image prune # clears images w/o tags (dangling images)
-d builder prune # clears image build cache
-
-d manifest inspect &lt;image&gt;  # on a remote registry only--not local
-d inspect &lt;container&gt; | jq '.[].Config'
-</code></pre>
-<p>Other stuff:</p>
-<pre><code>d commit &lt;container&gt; &lt;new-image-name&gt;  # Snapshot a running container to an image
-
-d volume create demo1 # Persistent volumes
-</code></pre>
-<p>Building and running; SSH'ing into a running container</p>
-<pre><code>$ d build --progress=plain -t tt .
-$ d run -p 3000:3000 -it tt  # run the container
-$ d run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
-$ d exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
-</code></pre>
-<p>Build and tag an image at the same time, and publish to Artifactory, with a git sha as an image tag...</p>
-<pre><code>image_tag=`git rev-parse --short HEAD`
-docker_tag=&lt;company-artifactory-url&gt;/apprenticeship-docker-local-default/bg-hw-deploy-refimpl:$image_tag
-d build -t $docker_tag .
-d push $docker_tag
-</code></pre>
-<p>The following command helped me debug an <code>exec format error</code> issue for a pod trying to start a container from my image; it showed that my <code>helloworld</code> image was an <code>arm64</code> image.</p>
-<pre><code>d inspect helloworld | grep -i arch
-</code></pre>
-<p>I needed to tell Docker on my M2 mac to build for the linudx/amd64 platform, which I did using the <code>--platform=linux/amd64</code> option to the FROM directive in my Dockerfile.</p>
 <div style="break-before: page; page-break-before: always;"></div><h2 id="kubernetes"><a class="header" href="#kubernetes">Kubernetes</a></h2>
 <p>kubectl is a client wrapper around the k8s REST API.</p>
 <p>Handy alias for kubectl: <code>k</code></p>
@@ -491,123 +414,6 @@ spec:
 <p>The deployment uses the pod template, including its metadata.labels, to create pods that can be selected by a service for routing traffic.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="ingresses-and-ingress-controllers"><a class="header" href="#ingresses-and-ingress-controllers">Ingresses and Ingress Controllers</a></h1>
 <p>An ingress is essentially a collection of rules sent to a controller that is listening for them.</p>
-<div style="break-before: page; page-break-before: always;"></div><h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
-<pre><code>brew install fly
-</code></pre>
-<h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
-<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or "target").  <code>~/.flyrc</code> can store multiple sets of creds.</p>
-<p>Since you have to specify target with every fly command, set up an alias...</p>
-<pre><code>alias f="fly -t bg-hw-deploy-refimpl"
-</code></pre>
-<p>Authentication is stored in <code>~/.flyrc</code>.</p>
-<pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw
-f sync   # Update fly CLI version to match Concourse server.
-</code></pre>
-<h2 id="creating-and-activating-a-pipeline-in-concourse"><a class="header" href="#creating-and-activating-a-pipeline-in-concourse">Creating and activating a pipeline in Concourse</a></h2>
-<pre><code>cd concourse
-f set-pipeline -c pipeline.yml -p bg-hw-deploy-refimpl
-f unpause-pipeline -p bg-hw-deploy-refimpl
-</code></pre>
-<h2 id="some-other-things-you-can-do-with-fly"><a class="header" href="#some-other-things-you-can-do-with-fly">Some other things you can do with fly</a></h2>
-<pre><code>f targets
-f status
-f userinfo
-f teams
-f logout
-f sync
-f workers
-f containers
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="the-vault-cli---reading-key-values"><a class="header" href="#the-vault-cli---reading-key-values">The Vault CLI - reading key-values</a></h1>
-<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault "secret".</p>
-<h2 id="get-the-vault-cli"><a class="header" href="#get-the-vault-cli">Get the Vault CLI</a></h2>
-<pre><code>sudo apt install vault
-</code></pre>
-<p>If the install fails, you may need to add the repository to your machine.</p>
-<p>See:</p>
-<ul>
-<li><a href="https://learn.hashicorp.com/tutorials/vault/getting-started-install">Vault Getting Started</a></li>
-<li><a href="https://www.hashicorp.com/blog/announcing-the-hashicorp-linux-repository">Announcing the Hashicorp Linux Repository</a></li>
-</ul>
-<h2 id="get-a-vault-token"><a class="header" href="#get-a-vault-token">Get a Vault token</a></h2>
-<p>Assuming that ...</p>
-<ol>
-<li>You have Key-Values stored in a secret within a "v2 Key-Value" secrets engine on https://vault.mycompany.com (such as "ansible"), and</li>
-<li>You belong to a group with access to that engine, and</li>
-<li>Your group's policy lets you at least "read" and "list",
-...then when you obtain authentication token, you'll be able to read those KV's.</li>
-</ol>
-<pre><code>$ export VAULT_ADDR=https://vault.mycompany.com
-$ export VAULT_NAMESPACE=unix
-$ export VAULT_TOKEN=         # Make sure VAULT_TOKEN is not set, otherwise the Vault CLI will use it instead of ~/.vault-token
-$ vault login -method=ldap username=$(id -un)
-Password (will be hidden):
-Success! You are now authenticated. The token information displayed below
-is already stored in the token helper. You do NOT need to run "vault login"
-again. Future Vault requests will automatically use this token.
-
-Key                    Value
----                    -----
-token                  s.EqpuvurstSkoL8Xtnst0OKkB
-token_accessor         XMueQHm6hVr77sHLubc6Q5Az
-token_duration         1h
-token_renewable        true
-token_policies         ["default"]
-identity_policies      []
-policies               ["default"]
-token_meta_username    cwalquist
-</code></pre>
-<h2 id="use-the-token-for-vault-key-value-retrieval"><a class="header" href="#use-the-token-for-vault-key-value-retrieval">Use the token for Vault key-value retrieval</a></h2>
-<h3 id="retrieve-with-curl"><a class="header" href="#retrieve-with-curl">Retrieve with curl</a></h3>
-<p>One approach is to curl Vault, using the token for authentication.  This request returns a JSON bag of ALL the keys in the path (along with some metadata). jq is handy for parsing out what you need (in this case, the value of haproxy_license_key).</p>
-<p>(Note the use of the Vault CLI to spit out a curl command).</p>
-<pre><code>$ vault read -output-curl-string concourse/myteam/mydeploy
-
-curl -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" https://vault.mycompany.com/v1/concourse/myteam/mydeploy
-
-# Add a "-s" to suppress extraneous curl output...
-curl -s -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" \
-  https://vault.mycompany.com/v1/concourse/myteam/mydeploy \
-  | jq .data.k8s_server_url
-
-"https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh"
-</code></pre>
-<pre><code># Use the Vault CLI to spit out json format directly
-$ vault read -format=json concourse/myteam/mydeploy \
-  | jq .data.k8s_server_url
-</code></pre>
-<h3 id="retrieve-the-keys-value-with-the-vault-cli"><a class="header" href="#retrieve-the-keys-value-with-the-vault-cli">Retrieve the key's value with the Vault CLI</a></h3>
-<pre><code>$ vault kv get -field k8s_server_url concourse/myteam/mydeploy
-https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh
-</code></pre>
-<h3 id="concourse---retrieving-secrets-from-vault"><a class="header" href="#concourse---retrieving-secrets-from-vault">Concourse - Retrieving secrets from Vault</a></h3>
-<p>In the <code>mydeploy</code> Concourse config, the git resource has a couple of references characterized by surrounding double-parens (( ... ))):</p>
-<pre><code>...
-  - name: mydeploy-app-repo
-    type: git
-    icon: github
-    webhook_token: ((mydeploy.app_webhook_token))
-    check_every: 4h
-    source:
-      uri: git@github.com:myorg/mydeploy.git
-      private_key: ((mydeploy.app_private_deploy_key))
-      branch: main
-...
-</code></pre>
-<p>These are <a href="https://concourse-ci.org/vars.html#var-syntax">Concourse Vars</a>, referencing secrets in Vault.</p>
-<p>Vault references are controlled by a <a href="https://concourse-ci.org/vars.html#cluster-wide-credential-manager">Concourse-cluster-wide credential manager</a>.  This excerpt is relevant:</p>
-<blockquote>
-<p>For credential managers like Vault that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; the key <code>foo</code> is expected under <code>/concourse/(team-name)/(pipeline-name)/foo</code>.</p>
-</blockquote>
-<p>So for example, Concourse keys for the <code>mydeploy</code> pipeline in the <code>myteam</code> Concourse team must live in the designated Vault namespace (such as <code>/unix</code>), under the <code>/concourse/myteam/mydeploy</code> path prefix at https://vault.mycompany.com.</p>
-<p>More Vault info:</p>
-<ul>
-<li><a href="https://concourse-ci.org/vars.html#var-syntax">Referencing Vault Secrets with Concourse Vars</a></li>
-</ul>
-<p>For credential managers that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; foo will be queried under <code>/concourse/(team-name)/(pipeline-name)/foo</code>.</p>
-<p>If you need to get hold of your cluster's CA chain, for purposes of configuring a k8s-resource in Concourse, https://technekey.com/how-to-get-kubernetes-ca-certificate/ has a one-liner ...</p>
-<pre><code>$ kubectl config view --raw -o go-template='{{index ((index (index .clusters 0) "cluster")) "certificate-authority-data"|base64decode}}'
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="mac-os-x-keyboard-shortcuts-and-other-tipstricks"><a class="header" href="#mac-os-x-keyboard-shortcuts-and-other-tipstricks">Mac OS X keyboard shortcuts, and other tips/tricks</a></h1>
 <p>(Install and start <a href="https://github.com/keycastr/keycastr">KeyCastr</a> if demo'ing keyboard shortcuts; shows keystrokes onscreen.)</p>
 <h2 id="first-things"><a class="header" href="#first-things">First things...</a></h2>
@@ -785,6 +591,215 @@ pip install ipykernel
 <ul>
 <li><a href="https://www.dataschool.io/jupyter-notebook-keyboard-shortcuts/">Dataschool.io - Jupyter Keyboard Shortcuts</a></li>
 </ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="the-vault-cli---reading-key-values"><a class="header" href="#the-vault-cli---reading-key-values">The Vault CLI - reading key-values</a></h1>
+<p>Vault does a lot of things.  This page focuses on retrieving key-value pairs from a Vault "secret".</p>
+<h2 id="get-the-vault-cli"><a class="header" href="#get-the-vault-cli">Get the Vault CLI</a></h2>
+<pre><code>sudo apt install vault
+</code></pre>
+<p>If the install fails, you may need to add the repository to your machine.</p>
+<p>See:</p>
+<ul>
+<li><a href="https://learn.hashicorp.com/tutorials/vault/getting-started-install">Vault Getting Started</a></li>
+<li><a href="https://www.hashicorp.com/blog/announcing-the-hashicorp-linux-repository">Announcing the Hashicorp Linux Repository</a></li>
+</ul>
+<h2 id="get-a-vault-token"><a class="header" href="#get-a-vault-token">Get a Vault token</a></h2>
+<p>Assuming that ...</p>
+<ol>
+<li>You have Key-Values stored in a secret within a "v2 Key-Value" secrets engine on https://vault.mycompany.com (such as "ansible"), and</li>
+<li>You belong to a group with access to that engine, and</li>
+<li>Your group's policy lets you at least "read" and "list",
+...then when you obtain authentication token, you'll be able to read those KV's.</li>
+</ol>
+<pre><code>$ export VAULT_ADDR=https://vault.mycompany.com
+$ export VAULT_NAMESPACE=unix
+$ export VAULT_TOKEN=         # Make sure VAULT_TOKEN is not set, otherwise the Vault CLI will use it instead of ~/.vault-token
+$ vault login -method=ldap username=$(id -un)
+Password (will be hidden):
+Success! You are now authenticated. The token information displayed below
+is already stored in the token helper. You do NOT need to run "vault login"
+again. Future Vault requests will automatically use this token.
+
+Key                    Value
+---                    -----
+token                  s.EqpuvurstSkoL8Xtnst0OKkB
+token_accessor         XMueQHm6hVr77sHLubc6Q5Az
+token_duration         1h
+token_renewable        true
+token_policies         ["default"]
+identity_policies      []
+policies               ["default"]
+token_meta_username    cwalquist
+</code></pre>
+<h2 id="use-the-token-for-vault-key-value-retrieval"><a class="header" href="#use-the-token-for-vault-key-value-retrieval">Use the token for Vault key-value retrieval</a></h2>
+<h3 id="retrieve-with-curl"><a class="header" href="#retrieve-with-curl">Retrieve with curl</a></h3>
+<p>One approach is to curl Vault, using the token for authentication.  This request returns a JSON bag of ALL the keys in the path (along with some metadata). jq is handy for parsing out what you need (in this case, the value of haproxy_license_key).</p>
+<p>(Note the use of the Vault CLI to spit out a curl command).</p>
+<pre><code>$ vault read -output-curl-string concourse/myteam/mydeploy
+
+curl -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" https://vault.mycompany.com/v1/concourse/myteam/mydeploy
+
+# Add a "-s" to suppress extraneous curl output...
+curl -s -H "X-Vault-Namespace: unix/" -H "X-Vault-Token: $(vault print token)" -H "X-Vault-Request: true" \
+  https://vault.mycompany.com/v1/concourse/myteam/mydeploy \
+  | jq .data.k8s_server_url
+
+"https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh"
+</code></pre>
+<pre><code># Use the Vault CLI to spit out json format directly
+$ vault read -format=json concourse/myteam/mydeploy \
+  | jq .data.k8s_server_url
+</code></pre>
+<h3 id="retrieve-the-keys-value-with-the-vault-cli"><a class="header" href="#retrieve-the-keys-value-with-the-vault-cli">Retrieve the key's value with the Vault CLI</a></h3>
+<pre><code>$ vault kv get -field k8s_server_url concourse/myteam/mydeploy
+https://rancherqa.chhq.kube.mycompany.com/k8s/clusters/c-pwwrh
+</code></pre>
+<h3 id="concourse---retrieving-secrets-from-vault"><a class="header" href="#concourse---retrieving-secrets-from-vault">Concourse - Retrieving secrets from Vault</a></h3>
+<p>In the <code>mydeploy</code> Concourse config, the git resource has a couple of references characterized by surrounding double-parens (( ... ))):</p>
+<pre><code>...
+  - name: mydeploy-app-repo
+    type: git
+    icon: github
+    webhook_token: ((mydeploy.app_webhook_token))
+    check_every: 4h
+    source:
+      uri: git@github.com:myorg/mydeploy.git
+      private_key: ((mydeploy.app_private_deploy_key))
+      branch: main
+...
+</code></pre>
+<p>These are <a href="https://concourse-ci.org/vars.html#var-syntax">Concourse Vars</a>, referencing secrets in Vault.</p>
+<p>Vault references are controlled by a <a href="https://concourse-ci.org/vars.html#cluster-wide-credential-manager">Concourse-cluster-wide credential manager</a>.  This excerpt is relevant:</p>
+<blockquote>
+<p>For credential managers like Vault that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; the key <code>foo</code> is expected under <code>/concourse/(team-name)/(pipeline-name)/foo</code>.</p>
+</blockquote>
+<p>So for example, Concourse keys for the <code>mydeploy</code> pipeline in the <code>myteam</code> Concourse team must live in the designated Vault namespace (such as <code>/unix</code>), under the <code>/concourse/myteam/mydeploy</code> path prefix at https://vault.mycompany.com.</p>
+<p>More Vault info:</p>
+<ul>
+<li><a href="https://concourse-ci.org/vars.html#var-syntax">Referencing Vault Secrets with Concourse Vars</a></li>
+</ul>
+<p>For credential managers that support path-based lookup, a secret-path without a leading / may be queried relative to a predefined set of path prefixes. This is how the Vault credential manager currently works; foo will be queried under <code>/concourse/(team-name)/(pipeline-name)/foo</code>.</p>
+<p>If you need to get hold of your cluster's CA chain, for purposes of configuring a k8s-resource in Concourse, https://technekey.com/how-to-get-kubernetes-ca-certificate/ has a one-liner ...</p>
+<pre><code>$ kubectl config view --raw -o go-template='{{index ((index (index .clusters 0) "cluster")) "certificate-authority-data"|base64decode}}'
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="docker"><a class="header" href="#docker">Docker</a></h2>
+<pre><code>alias d=docker  # Save typing
+
+d inspect the-image-name-or-ID | jq '.[].Config.Cmd'
+d image ls
+d ps
+</code></pre>
+<p>Managing storage:</p>
+<pre><code>d history &lt;image&gt;
+d system df
+
+d image prune # clears images w/o tags (dangling images)
+d builder prune # clears image build cache
+
+d manifest inspect &lt;image&gt;  # on a remote registry only--not local
+d inspect &lt;container&gt; | jq '.[].Config'
+</code></pre>
+<p>Other stuff:</p>
+<pre><code>d commit &lt;container&gt; &lt;new-image-name&gt;  # Snapshot a running container to an image
+
+d volume create demo1 # Persistent volumes
+</code></pre>
+<p>Building and running; SSH'ing into a running container</p>
+<pre><code>$ d build --progress=plain -t tt .
+$ d run -p 3000:3000 -it tt  # run the container
+$ d run -p 3000:3000 -it tt /bin/bash  # Debug the container; overrides the Dockerfile's CMD or ENTRYPOINT directive
+$ d exec -it $(docker ps | tail -1 | rev | cut -d'\'' '\'' -f1 | rev) /bin/bash' # SSH into the first running container
+</code></pre>
+<p>Build and tag an image at the same time, and publish to Artifactory, with a git sha as an image tag...</p>
+<pre><code>image_tag=`git rev-parse --short HEAD`
+docker_tag=&lt;company-artifactory-url&gt;/apprenticeship-docker-local-default/bg-hw-deploy-refimpl:$image_tag
+d build -t $docker_tag .
+d push $docker_tag
+</code></pre>
+<p>The following command helped me debug an <code>exec format error</code> issue for a pod trying to start a container from my image; it showed that my <code>helloworld</code> image was an <code>arm64</code> image.</p>
+<pre><code>d inspect helloworld | grep -i arch
+</code></pre>
+<p>I needed to tell Docker on my M2 mac to build for the linudx/amd64 platform, which I did using the <code>--platform=linux/amd64</code> option to the FROM directive in my Dockerfile.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="archived"><a class="header" href="#archived">archived</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="install-fly-the-concourse-ci-client"><a class="header" href="#install-fly-the-concourse-ci-client">Install <code>fly</code>, the Concourse-CI client</a></h2>
+<pre><code>brew install fly
+</code></pre>
+<h2 id="authenticate-the-client-to-concourse"><a class="header" href="#authenticate-the-client-to-concourse">Authenticate the client to Concourse</a></h2>
+<p><code>-t</code> is for target -- an alias to the set of credentials in <code>~/.flyrc</code> that will authenticate you to the Concourse instance you want to work with (or "target").  <code>~/.flyrc</code> can store multiple sets of creds.</p>
+<p>Since you have to specify target with every fly command, set up an alias...</p>
+<pre><code>alias f="fly -t bg-hw-deploy-refimpl"
+</code></pre>
+<p>Authentication is stored in <code>~/.flyrc</code>.</p>
+<pre><code>f login --team-name devops-apprentices --concourse-url https://concourse.drw
+f sync   # Update fly CLI version to match Concourse server.
+</code></pre>
+<h2 id="creating-and-activating-a-pipeline-in-concourse"><a class="header" href="#creating-and-activating-a-pipeline-in-concourse">Creating and activating a pipeline in Concourse</a></h2>
+<pre><code>cd concourse
+f set-pipeline -c pipeline.yml -p bg-hw-deploy-refimpl
+f unpause-pipeline -p bg-hw-deploy-refimpl
+</code></pre>
+<h2 id="some-other-things-you-can-do-with-fly"><a class="header" href="#some-other-things-you-can-do-with-fly">Some other things you can do with fly</a></h2>
+<pre><code>f targets
+f status
+f userinfo
+f teams
+f logout
+f sync
+f workers
+f containers
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
+<h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
+<pre><code>$ brew install --cask google-cloud-sdk            
+$ gcloud components install gke-gcloud-auth-plugin
+$ gcloud init
+</code></pre>
+<h3 id="create-a-cluster"><a class="header" href="#create-a-cluster">Create a cluster</a></h3>
+<pre><code>$ gcloud container clusters create my-cluster
+</code></pre>
+<p>Update ~/.kube/config to point kubectl at a specific cluster in GKE.</p>
+<pre><code>$ gcloud container clusters get-credentials my-cluster
+</code></pre>
+<p>Example of building an image tagged for pushing to my Google container registry repo</p>
+<pre><code>$ docker build -t us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image:1.2.10 .
+</code></pre>
+<h3 id="use-gcloud-to-set-up-google-container-registry-repo-for-docker-images"><a class="header" href="#use-gcloud-to-set-up-google-container-registry-repo-for-docker-images">Use gcloud to set up Google container registry repo for Docker images</a></h3>
+<pre><code>$ gcloud services enable artifactregistry.googleapis.com
+
+# Create the repo...
+$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description="blue/green helloworld app" --location=us-east1
+
+# Use gcloud to add a credential helper to your ~/.docker/config.json...
+$ gcloud auth configure-docker us-east1-docker.pkg.dev
+
+# Now you can 'docker push' the tagged image...
+$ docker push us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image
+
+</code></pre>
+<p>Set up some gcloud defaults to make subsequent commands easier...</p>
+<pre><code>$ gcloud config set artifacts/location us-east1 
+$ gcloud config set artifacts/repository bg-hw-deploy-refimpl
+
+# These were already set during 'gcloud init' ...
+$ gcloud config get compute/region
+us-east1
+$ gcloud config get compute/zone  
+us-east1-b
+</code></pre>
+<p>Stop the cluster nodes (e.g., to minimize ongoing charges)</p>
+<pre><code>gcloud container clusters resize my-cluster --num-nodes=0
+</code></pre>
+<p>Delete the cluster</p>
+<pre><code>gcloud container clusters delete my-cluster
+</code></pre>
+<p>Look at the pushed image...</p>
+<pre><code>$ gcloud artifacts docker images list
+
+</code></pre>
+<p>kubectl looking-around commands...</p>
+<pre><code>$ kubectl get pods
+$ kubectl get namespaces
+$ kubectl config current-context
+</code></pre>
 
                     </main>
 

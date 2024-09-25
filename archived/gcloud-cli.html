@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Ingresses &amp; Ingress Controllers - Cheat Sheets</title>
+        <title>gcloud - Google Cloud CLI - Cheat Sheets</title>
 
 
         <!-- Custom HTML head -->
@@ -88,7 +88,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../flutter-cheat-sheet.html"><strong aria-hidden="true">1.</strong> flutter cheat sheet</a></li><li class="chapter-item expanded "><a href="../git-cheat-sheet.html"><strong aria-hidden="true">2.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="../one-liners.html"><strong aria-hidden="true">3.</strong> *nix One-Liners</a></li><li class="chapter-item expanded "><a href="../k8s.html"><strong aria-hidden="true">4.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../k8s/kubectl-and-api.html"><strong aria-hidden="true">4.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="../k8s/labels-selectors-annotations.html"><strong aria-hidden="true">4.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="../k8s/ingresses-and-controllers.html" class="active"><strong aria-hidden="true">4.3.</strong> Ingresses & Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="../mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">5.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="../jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">6.</strong> Jupyter - venv setup with VSCode</a></li><li class="chapter-item expanded "><a href="../jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">7.</strong> Jupyter - keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="../vault.html"><strong aria-hidden="true">8.</strong> Vault</a></li><li class="chapter-item expanded "><a href="../docker-cli.html"><strong aria-hidden="true">9.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="../archived.html"><strong aria-hidden="true">10.</strong> archived</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../archived/concourse-ci.html"><strong aria-hidden="true">10.1.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="../archived/gcloud-cli.html"><strong aria-hidden="true">10.2.</strong> gcloud - Google Cloud CLI</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../flutter-cheat-sheet.html"><strong aria-hidden="true">1.</strong> flutter cheat sheet</a></li><li class="chapter-item expanded "><a href="../git-cheat-sheet.html"><strong aria-hidden="true">2.</strong> git cheat sheet</a></li><li class="chapter-item expanded "><a href="../one-liners.html"><strong aria-hidden="true">3.</strong> *nix One-Liners</a></li><li class="chapter-item expanded "><a href="../k8s.html"><strong aria-hidden="true">4.</strong> Kubernetes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../k8s/kubectl-and-api.html"><strong aria-hidden="true">4.1.</strong> kubectl and API</a></li><li class="chapter-item expanded "><a href="../k8s/labels-selectors-annotations.html"><strong aria-hidden="true">4.2.</strong> Labels, Selectors, Annotations</a></li><li class="chapter-item expanded "><a href="../k8s/ingresses-and-controllers.html"><strong aria-hidden="true">4.3.</strong> Ingresses & Ingress Controllers</a></li></ol></li><li class="chapter-item expanded "><a href="../mac-keyboard-shortcuts-etc.html"><strong aria-hidden="true">5.</strong> Mac keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="../jupyter-notebooks/vscode-venv-setup.html"><strong aria-hidden="true">6.</strong> Jupyter - venv setup with VSCode</a></li><li class="chapter-item expanded "><a href="../jupyter-notebooks/keyboard-shortcuts.html"><strong aria-hidden="true">7.</strong> Jupyter - keyboard shortcuts</a></li><li class="chapter-item expanded "><a href="../vault.html"><strong aria-hidden="true">8.</strong> Vault</a></li><li class="chapter-item expanded "><a href="../docker-cli.html"><strong aria-hidden="true">9.</strong> docker CLI</a></li><li class="chapter-item expanded "><a href="../archived.html"><strong aria-hidden="true">10.</strong> archived</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../archived/concourse-ci.html"><strong aria-hidden="true">10.1.</strong> Concourse-CI</a></li><li class="chapter-item expanded "><a href="../archived/gcloud-cli.html" class="active"><strong aria-hidden="true">10.2.</strong> gcloud - Google Cloud CLI</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -173,20 +173,68 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="ingresses-and-ingress-controllers"><a class="header" href="#ingresses-and-ingress-controllers">Ingresses and Ingress Controllers</a></h1>
-<p>An ingress is essentially a collection of rules sent to a controller that is listening for them.</p>
+                        <h2 id="gcloud"><a class="header" href="#gcloud">gcloud</a></h2>
+<h3 id="install-gcloud"><a class="header" href="#install-gcloud">Install gcloud</a></h3>
+<pre><code>$ brew install --cask google-cloud-sdk            
+$ gcloud components install gke-gcloud-auth-plugin
+$ gcloud init
+</code></pre>
+<h3 id="create-a-cluster"><a class="header" href="#create-a-cluster">Create a cluster</a></h3>
+<pre><code>$ gcloud container clusters create my-cluster
+</code></pre>
+<p>Update ~/.kube/config to point kubectl at a specific cluster in GKE.</p>
+<pre><code>$ gcloud container clusters get-credentials my-cluster
+</code></pre>
+<p>Example of building an image tagged for pushing to my Google container registry repo</p>
+<pre><code>$ docker build -t us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image:1.2.10 .
+</code></pre>
+<h3 id="use-gcloud-to-set-up-google-container-registry-repo-for-docker-images"><a class="header" href="#use-gcloud-to-set-up-google-container-registry-repo-for-docker-images">Use gcloud to set up Google container registry repo for Docker images</a></h3>
+<pre><code>$ gcloud services enable artifactregistry.googleapis.com
+
+# Create the repo...
+$ gcloud artifacts repositories create bg-hw-deploy-refimpl --repository-format=docker --description="blue/green helloworld app" --location=us-east1
+
+# Use gcloud to add a credential helper to your ~/.docker/config.json...
+$ gcloud auth configure-docker us-east1-docker.pkg.dev
+
+# Now you can 'docker push' the tagged image...
+$ docker push us-east1-docker.pkg.dev/k8s-cluster-learning-393915/bg-hw-deploy-refimpl/app-image
+
+</code></pre>
+<p>Set up some gcloud defaults to make subsequent commands easier...</p>
+<pre><code>$ gcloud config set artifacts/location us-east1 
+$ gcloud config set artifacts/repository bg-hw-deploy-refimpl
+
+# These were already set during 'gcloud init' ...
+$ gcloud config get compute/region
+us-east1
+$ gcloud config get compute/zone  
+us-east1-b
+</code></pre>
+<p>Stop the cluster nodes (e.g., to minimize ongoing charges)</p>
+<pre><code>gcloud container clusters resize my-cluster --num-nodes=0
+</code></pre>
+<p>Delete the cluster</p>
+<pre><code>gcloud container clusters delete my-cluster
+</code></pre>
+<p>Look at the pushed image...</p>
+<pre><code>$ gcloud artifacts docker images list
+
+</code></pre>
+<p>kubectl looking-around commands...</p>
+<pre><code>$ kubectl get pods
+$ kubectl get namespaces
+$ kubectl config current-context
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../k8s/labels-selectors-annotations.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../archived/concourse-ci.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../mac-keyboard-shortcuts-etc.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
-                            </a>
 
                         <div style="clear: both"></div>
                     </nav>
@@ -194,13 +242,10 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../k8s/labels-selectors-annotations.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../archived/concourse-ci.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../mac-keyboard-shortcuts-etc.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
             </nav>
 
         </div>
