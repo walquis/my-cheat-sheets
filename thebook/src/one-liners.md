@@ -29,15 +29,33 @@ VSCode has a nasty habit of saving text files w/o a final newline.  This snippet
 ```
 find tests -name '*.py' | while read f; do tail -n1 $f | read -r _ || echo >> $f; done
 ```
+# ZSH
 
-## Use zsh arrays to juggle filename components
+## Word splitting
+Unlike most other shells, zsh does not perform word splitting during variable expansion by default. Do this to make it so:
 ```
-# Splits filename by '.' into a zsh array named fn ...
+pkgs="aom apr-util"
+
+for pkg in ${=pkgs}; do  # <-- Special syntax for word splitting; see "man zshexpn"
+  echo "$pkg"
+done
+
+aom
+apr-util
+```
+
+## Juggle filename components using zsh array
+```
+# Split filename by '.' into fn, a zsh array (zsh arrays start at 1, not 0)...
 for i in *.JPG; do fn=("${(@s/./)i}"); convert $i -resize '600x800>'  ${fn[1]}-resized.JPG;  done
 
-# Can also rename .yaml files to .yml ...
+# Rename .yaml files to .yml ...
 for i in *.yaml; do fn=("${(@s/./)i}"); mv $i ${fn[1]}.yml;  done
 
-# Or convert extensions from lower-case to upper-case...
+# Convert extensions from lower-case to upper-case...
 for i in *.png; do fn=("${(@s/./)i}"); git mv $i ${fn[1]}.PNG;  done
+```
+## OR, just grab basename and extension directly
+```
+for i in *.JPG; do base=${i:r}; ext=${i:e}; echo magick $i -resize '600x800>' "${base}-smaller.${ext}";  done
 ```

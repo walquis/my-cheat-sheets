@@ -1,2 +1,2 @@
-# devops-study-book
-- See [the mdBook](https://walquis.github.io/devops-study-book)
+# my-cheat-sheets
+- See [the mdBook](https://walquis.github.io/my-cheat-sheets)

@@ -12,4 +12,12 @@ f pub add provider
 f upgrade # Upgrade Flutter version
 
 f doctor # Sanity-check Flutter environment
+
+f clean # When you do something big, e.g., rename a Flutter project
 ```
+
+With VSCode:
+## Flutter Hot-reload-on-save:
+- Settings -> User -> Extensions -> Dart -> Flutter -> Hot Reload on Save -> allfDirty
+
+
